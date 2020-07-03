@@ -287,17 +287,17 @@ void MainWindow::processEvents(bool wait)
         if (uih->rotatemode == ROTATE_CONTINUOUS) {
             static int rpid;
             if (key == KEYRIGHT)
-                uih->rotationspeed.a +=
+                uih->rotationspeed +=
                     ROTATESPEEDUP * tl_lookup_timer(maintimer) / 1000000.0;
             else if (key == KEYLEFT)
-                uih->rotationspeed.a -=
+                uih->rotationspeed -=
                     ROTATESPEEDUP * tl_lookup_timer(maintimer) / 1000000.0;
             if (key & (KEYLEFT | KEYRIGHT)) {
                 uih_rmmessage(uih, rpid);
                 sprintf(
                     str,
                     TR("Message", "Rotation speed:%2.2f degrees per second "),
-                    (float)uih->rotationspeed.a);
+                    (float)uih->rotationspeed);
                 rpid = uih_message(uih, str);
             }
             tl_reset_timer(maintimer);
