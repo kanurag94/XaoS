@@ -32,6 +32,8 @@
 struct number_t {
     double a;
     long double b;
+
+    // Constructors
     number_t(){
         a = 0; b=0;
     }
@@ -40,71 +42,14 @@ struct number_t {
         a = num; b=num;
     }
 
-    bool operator>(number_t num) const{
-        if(num.a > a)return true;
-        else return false;
-    }
-    bool operator<(number_t num) const{
-        if(num.a < a)return true;
-        else return false;
-    }
-    bool operator==(number_t num) const{
-        if(num.a == a)return true;
-        else return false;
-    }
-    bool operator!=(number_t num) const{
-        if(num.a != a)return true;
-        else return false;
-    }
-    bool operator>=(number_t num) const{
-        if(num.a >= a)return true;
-        else return false;
-    }
-    bool operator<=(number_t num) const{
-        if(num.a <= a)return true;
-        else return false;
-    }
+    // Start operator overloading
 
-    number_t operator+(number_t num) const{
-        num.a += a;
-        return num;
-    }
-    number_t operator-(number_t num) const{
-        num.a -= a;
-        return num;
-    }
-    number_t operator/(number_t num) const{
-        num.a/=a;
-        return num;
-    }
-    number_t operator*=(number_t num) const{
-        num.a*=a;
-        return num;
-    }
-    number_t operator+=(number_t num) const{
-        num.a+=a;
-        return num;
-    }
-    number_t operator-=(number_t num) const{
-        num.a -= a;
-        return num;
-    }
-    number_t operator/=(number_t num) const{
-        num.a/=a;
-        return num;
-    }
-    number_t operator*(number_t num) const{
-        num.a*=a;
-        return num;
-    }
-    number_t operator=(number_t num) const{
-        return num;
-    }
-
+    // Arithmetic Operators
     template<typename T>
     number_t operator-(T num) const{
         number_t temp(0);
         temp.a = this->a - num;
+        temp.b = this->b - num;
         return temp;
     }
 
@@ -164,6 +109,7 @@ struct number_t {
         return temp;
     }
 
+    // Relational Operators
     template<typename T>
     bool operator>(T num) const{
         if(num > a)return true;
@@ -205,13 +151,20 @@ struct number_t {
         else return num;
     }
 
+    // Typecasting
     template<typename T>
     operator T() const {
         return (T)a;
     }
-};
 
-#define ONE {1, 1}
+    //Minus unary operator
+    number_t operator-() {
+        number_t num;
+        num.a = -a;
+        num.b = -b;
+        return num;
+    }
+};
 
 #include<math.h>
 double atan2(number_t num1, number_t num2){
@@ -266,11 +219,6 @@ T operator-(T d, number_t num) {
 template<typename T>
 T operator/(T d, number_t num) {
     return d/num.a;
-}
-
-template <typename T>
-T operator-(T num) {
-    return num *= (T)1.0;
 }
 
 // Supported color depths
