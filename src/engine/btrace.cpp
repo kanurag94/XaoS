@@ -250,6 +250,7 @@ static unsigned char *calculated;
 #define CALCWIDTH cimage.width
 
 static number_t *xcoord, *ycoord;
+
 #ifndef inline
 
 static pixel32_t calculatepixel(int x, int y, int peri)

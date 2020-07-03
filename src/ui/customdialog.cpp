@@ -21,9 +21,9 @@ QString format(number_t number)
     quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number);
 #else
 #ifdef USE_LONG_DOUBLE
-    snprintf(buf, 256, "%.20Lg", (long double)number);
+    snprintf(buf, 256, "%.20Lg", number);
 #else
-    snprintf(buf, 256, "%.20g", (double)number);
+    snprintf(buf, 256, "%.20g", number);
 #endif
 #endif
     return QString(buf);

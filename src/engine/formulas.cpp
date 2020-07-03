@@ -228,62 +228,62 @@ static inline void hsv_to_rgb(int h, int s, int v, int *red, int *green,
     }
 }
 
-static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
-                                     number_t pim, int mode, int inset);
+static unsigned int truecolor_output(number_t zrea, number_t zima, number_t prea,
+                                     number_t pima, int mode, int inset);
 
-static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
-                                     number_t pim, int mode, int inset)
+static unsigned int truecolor_output(number_t zrea, number_t zima, number_t prea,
+                                     number_t pima, int mode, int inset)
 {
     /* WARNING: r and b fields are swapped for HISTORICAL REASONS (BUG :),
      * in other words: use r for blue and b for red. */
     int r = 0, g = 0, b = 0, w = 0;
-
+    long double zre = zrea.a, zim = zima.a, pre = prea.a, pim = pima.a;
     switch (mode) {
         case 0:
             break;
         case 1:
-            b = (int)((sin((double)atan2((double)zre, (double)zim) * 20) + 1) *
+            b = (int)((sin((double)atan2(zre, zim) * 20) + 1) *
                       127);
-            w = (int)((sin((double)zim / zre)) * 127);
+            w = (int)((sin(zim / zre)) * 127);
             r = (int)((int)(zre * zim));
-            g = (int)((sin((double)(zre * zre) / 2) + 1) * 127);
+            g = (int)((sin((zre * zre) / 2) + 1) * 127);
             break;
         case 2:
             if (!inset) {
-                r = (int)((sin((double)zre * 2) + 1) * 127);
-                g = (int)((sin((double)zim * 2) + 1) * 127);
-                b = (int)((sin((double)(zim * zim + zre * zre) / 2) + 1) * 127);
+                r = (int)((sin(zre * 2) + 1) * 127);
+                g = (int)((sin(zim * 2) + 1) * 127);
+                b = (int)((sin((zim * zim + zre * zre) / 2) + 1) * 127);
             } else {
-                r = (int)((sin((double)zre * 50) + 1) * 127);
-                g = (int)((sin((double)zim * 50) + 1) * 127);
-                b = (int)((sin((double)(zim * zim + zre * zre) * 50) + 1) *
+                r = (int)((sin(zre * 50) + 1) * 127);
+                g = (int)((sin(zim * 50) + 1) * 127);
+                b = (int)((sin((zim * zim + zre * zre) * 50) + 1) *
                           127);
             }
-            w = (int)((sin((double)zim / zre)) * 127);
+            w = (int)((sin(zim / zre)) * 127);
             break;
         case 3:
             if (inset)
-                hsv_to_rgb((int)(atan2((double)zre, (double)zim) * 256 / M_PI),
-                           (int)((sin((double)(zre * 50)) + 1) * 128),
-                           (int)((sin((double)(zim * 50)) + 1) * 128), &r, &g,
+                hsv_to_rgb((int)(atan2(zre, zim) * 256 / M_PI),
+                           (int)((sin((zre * 50)) + 1) * 128),
+                           (int)((sin((zim * 50)) + 1) * 128), &r, &g,
                            &b);
             else
-                hsv_to_rgb((int)(atan2((double)zre, (double)zim) * 256 / M_PI),
-                           (int)((sin((double)zre) + 1) * 128),
-                           (int)((sin((double)zim) + 1) * 128), &r, &g, &b);
+                hsv_to_rgb((int)(atan2(zre, zim) * 256 / M_PI),
+                           (int)((sin(zre) + 1) * 128),
+                           (int)((sin(zim) + 1) * 128), &r, &g, &b);
             break;
         case 4:
             if (inset)
                 hsv_to_rgb(
                     (int)(sin((double)(zre * zre + zim * zim) * 0.1) * 256),
-                    (int)(sin(atan2((double)zre, (double)zim) * 10) * 128 +
+                    (int)(sin(atan2(zre, zim) * 10) * 128 +
                           128),
-                    (int)((sin((double)(zre + zim) * 10)) * 65 + 128), &r, &g,
+                    (int)((sin((zre + zim) * 10)) * 65 + 128), &r, &g,
                     &b);
             else
                 hsv_to_rgb(
                     (int)(sin((double)(zre * zre + zim * zim) * 0.01) * 256),
-                    (int)(sin(atan2((double)zre, (double)zim) * 10) * 128 +
+                    (int)(sin(atan2(zre, zim) * 10) * 128 +
                           128),
                     (int)((sin((double)(zre + zim) * 0.3)) * 65 + 128), &r, &g,
                     &b);
@@ -347,9 +347,9 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
             }
         } break;
         case 10: {
-            r = (int)(atan2((double)zre, (double)zim) * 128 / M_PI) + 128;
-            g = (int)(atan2((double)zre, (double)zim) * 128 / M_PI) + 128;
-            b = (int)(atan2((double)zim, (double)zre) * 128 / M_PI) + 128;
+            r = (int)(atan2(zre, zim) * 128 / M_PI) + 128;
+            g = (int)(atan2(zre, zim) * 128 / M_PI) + 128;
+            b = (int)(atan2(zim, zre) * 128 / M_PI) + 128;
         } break;
             // case 11 is for disabling truecolor mode
         case 12: {
@@ -403,13 +403,13 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
     return cpalette.pixels[inset];
 }
 
-static unsigned int color_output(number_t zre, number_t zim, unsigned int iter);
-static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
+static unsigned int color_output(number_t zrea, number_t zima, unsigned int iter);
+static unsigned int color_output(number_t zrea, number_t zima, unsigned int iter)
 {
     int i;
     iter <<= SHIFT;
     i = iter;
-
+    long double zre = zrea.a, zim = zima.a;
     switch (cfractalc.coloringmode) {
         case 9:
             break;
@@ -426,7 +426,7 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
             i = (int)(iter + (zre + zim + zre / zim) * SMUL);
             break;
         case 5:
-            if (zim > 0)
+            if (zim > (double)0)
                 i = ((cfractalc.maxiter << SHIFT) - iter);
             break;
         case 6:
@@ -435,11 +435,11 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
             break;
         case 7:
             zre = zre * zre + zim * zim;
-            i = (int)(sqrt(log((double)zre) / i) * 256 * 256);
+            i = (int)(sqrt(log(zre) / i) * 256 * 256);
             break;
         default:
         case 8:
-            i = (int)((atan2((double)zre, (double)zim) / (M_PI + M_PI) + 0.75) *
+            i = (int)((atan2(zre, zim) / (M_PI + M_PI) + 0.75) *
                       20000);
             break;
     }
@@ -468,17 +468,18 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
     }
 }
 
-static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
-                                   number_t pim, unsigned int iter);
+static unsigned int incolor_output(number_t zrea, number_t zima, number_t prea,
+                                   number_t pima, unsigned int iter);
 
-static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
-                                   number_t pim, unsigned int iter)
+static unsigned int incolor_output(number_t zrea, number_t zima, number_t prea,
+                                   number_t pima, unsigned int iter)
 {
     int i = iter;
+    long double zre = zrea.a, zim = zima.a, pre = prea.a, pim = pima.a;
     switch (cfractalc.incoloringmode) {
         case 1: /* zmag */
             i = (int)(((zre * zre + zim * zim) *
-                           (number_t)(cfractalc.maxiter >> 1) * SMUL +
+                           (long double)(cfractalc.maxiter >> 1) * SMUL +
                        SMUL));
             break;
         case 2: /* real */
@@ -501,28 +502,28 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
             break;
         case 5:
             if (((int)((zre * zre + zim * zim) * 10)) % 2)
-                i = (int)(cos((double)(zre * zim * pre * pim)) * 256 * 256);
+                i = (int)(cos((zre * zim) * (pre * pim)) * 256 * 256);
             else
-                i = (int)(sin((double)(zre * zim * pre * pim)) * 256 * 256);
+                i = (int)(sin(((zre * zim) * (pre * pim))) * 256 * 256);
             break;
         case 6:
-            i = (int)((zre * zre + zim * zim) * cos((double)(zre * zre)) * 256 *
+            i = (int)((zre * zre + zim * zim) * cos((zre * zre)) * 256 *
                       256);
             break;
         case 7:
-            i = (int)(sin((double)(zre * zre - zim * zim)) * 256 * 256);
+            i = (int)(sin(((zre * zre )- (zim * zim))) * 256 * 256);
             break;
         case 8:
-            i = (int)(atan((double)(zre * zim * pre * pim)) * 256 * 64);
+            i = (int)(atan(((zre * zim) * (pre * pim))) * 256 * 64);
             break;
         case 9:
             if ((abs((int)(zre * 40)) % 2) ^ (abs((int)(zim * 40)) % 2))
                 i = (int)((
-                    (atan2((double)zre, (double)zim) / (M_PI + M_PI) + 0.75) *
+                    (atan2(zre, zim) / (M_PI + M_PI) + 0.75) *
                     20000));
             else
                 i = (int)((
-                    (atan2((double)zim, (double)zre) / (M_PI + M_PI) + 0.75) *
+                    (atan2(zim, zre) / (M_PI + M_PI) + 0.75) *
                     20000));
             break;
     };
@@ -554,7 +555,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 #define UNCOMPRESS
 #define PRETEST 0
 #define FORMULA                                                                \
-    zim = (zim * zre) * 2 + pim;                                               \
+    zim = ((zim * zre) * (double)2) + pim;                                               \
     zre = rp - ip + pre;                                                       \
     ip = zim * zim;                                                            \
     rp = zre * zre;

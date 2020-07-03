@@ -322,6 +322,7 @@ static void newpositions(realloc_t *realloc, unsigned int size, number_t begin1,
                          number_t end1, const number_t *fpos, int yend)
 {
     realloc_t *rs, *re, *rend;
+    begin1 = (__float128)(begin1);
     number_t step = size / (end1 - begin1);
     number_t start;
     number_t end;

@@ -29,15 +29,104 @@
 #define USE_PTHREAD
 
 // Numeric type
-#ifdef USE_FLOAT128
-typedef __float128 number_t;
-#else
-#ifdef USE_LONG_DOUBLE
-typedef long double number_t;
-#else
-typedef double number_t;
-#endif
-#endif
+struct number_t {
+    double a;
+    long double b;
+    bool operator>(number_t num) const{
+        if(num.a > a)return true;
+        else return false;
+    }
+    bool operator<(number_t num) const{
+        if(num.a < a)return true;
+        else return false;
+    }
+    number_t operator+(number_t num) const{
+        num.a += a;
+        return num;
+    }
+    number_t operator-(number_t num) const{
+        num.a -= a;
+        return num;
+    }
+    number_t operator/(number_t num) const{
+        num.a/=a;
+        return num;
+    }
+    number_t operator*=(number_t num) const{
+        num.a*=a;
+        return num;
+    }
+    number_t operator/=(number_t num) const{
+        num.a/=a;
+        return num;
+    }
+    number_t operator*(number_t num) const{
+        num.a*=a;
+        return num;
+    }
+    number_t operator=(number_t num) const{
+        return num;
+    }
+    number_t operator-(double num) const{
+        number_t temp;
+        temp.a = this->a - num;
+        return temp;
+    }
+    number_t operator+(double num) const{
+        number_t temp;
+        temp.a = this->a - num;
+        return temp;
+    }
+    number_t operator*(double num) const{
+        number_t temp;
+        temp.a = this->a * num;
+        return temp;
+    }
+    number_t operator/(double num) const{
+        number_t temp;
+        temp.a = this->a / num;
+        return temp;
+    }
+    number_t operator*=(double num) const{
+        number_t temp;
+        temp.a = this->a * num;
+        return temp;
+    }
+    number_t operator/=(double num) const{
+        number_t temp;
+        temp.a = this->a / num;
+        return temp;
+    }
+    bool operator>(double num) const{
+        if(num > a)return true;
+        else return false;
+    }
+    bool operator<(double num) const{
+        if(num < a)return true;
+        else return false;
+    }
+};
+
+#include<math.h>
+double atan2(number_t num1, number_t num2){
+    return atan2((double)num1.a, (double)num2.a);
+}
+
+int atan(number_t num){
+    return atan((double)num.a);
+}
+
+double sin(number_t num1){
+    return sin((double)num1.a);
+}
+
+double cos(number_t num1){
+    return cos((double)num1.a);
+}
+
+double log(number_t num){
+    return log(num.a);
+}
 
 // Supported color depths
 #define STRUECOLOR

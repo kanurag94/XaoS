@@ -153,11 +153,11 @@ void overlayGrid(uih_context *c, int fgcolor)
     painter.setPen(pen);
 
     //Find fractal origin (0,0)
-    long long int x1 = (0 - c->fcontext->rs.nc) /
-        (c->fcontext->rs.mc - c->fcontext->rs.nc) *
+    long long int x1 = (c->fcontext->rs.nc.a) /
+        (c->fcontext->rs.mc.a - c->fcontext->rs.nc.a) *
         c->zengine->image->width;
-    long long int y1 = (0 - c->fcontext->rs.ni) /
-        (c->fcontext->rs.mi - c->fcontext->rs.ni) *
+    long long int y1 = (c->fcontext->rs.ni.a) /
+        (c->fcontext->rs.mi.a - c->fcontext->rs.ni.a) *
         c->zengine->image->height;
 
     /* FIXME Support greater zoom*/
@@ -170,15 +170,15 @@ void overlayGrid(uih_context *c, int fgcolor)
     }
 
     // Find next coordinate (1,1)
-    long long int x2 = (1 - c->fcontext->rs.nc) /
-        (c->fcontext->rs.mc - c->fcontext->rs.nc) *
+    long long int x2 = (1 - c->fcontext->rs.nc.a) /
+        (c->fcontext->rs.mc.a - c->fcontext->rs.nc.a) *
         c->zengine->image->width;
-    long long int y2 = (1 - c->fcontext->rs.ni) /
-        (c->fcontext->rs.mi - c->fcontext->rs.ni) *
+    long long int y2 = (1 - c->fcontext->rs.ni.a) /
+        (c->fcontext->rs.mi.a - c->fcontext->rs.ni.a) *
         c->zengine->image->height;
 
     // Find current zoom level
-    long double rr = c->fcontext->s.rr/10.0;
+    long double rr = c->fcontext->s.rr.a/10.0;
     long double counter=0;
     while(rr<1){
         rr*=10;
