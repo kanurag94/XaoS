@@ -572,7 +572,7 @@ static void JULIA(struct image *image, number_t pre, number_t pim)
                 i = image->height / 2 + i1 / 2 + 1;
             if (i >= image->height)
                 continue;
-            im = IMIN + (i + 0.5) * ystep;
+            im = IMIN + ystep * (i + 0.5);
             for (j = (i + i2) & 1; j < image->width; j += 2) {
                 STAT(total2++);
                 addr = addr1[i] + j;
@@ -590,7 +590,7 @@ static void JULIA(struct image *image, number_t pre, number_t pim)
                     }
                 }
                 zim = im;
-                zre = RMIN + (j + 0.5) * xstep;
+                zre = RMIN + xstep * (j + 0.5);
                 iter = (unsigned char)0;
                 qptr = queue;
                 ip = (zim * zim);

@@ -32,6 +32,14 @@
 struct number_t {
     double a;
     long double b;
+    number_t(){
+        a = 0; b=0;
+    }
+    template<typename T>
+    number_t(T num){
+        a = num; b=num;
+    }
+
     bool operator>(number_t num) const{
         if(num.a > a)return true;
         else return false;
@@ -40,6 +48,23 @@ struct number_t {
         if(num.a < a)return true;
         else return false;
     }
+    bool operator==(number_t num) const{
+        if(num.a == a)return true;
+        else return false;
+    }
+    bool operator!=(number_t num) const{
+        if(num.a != a)return true;
+        else return false;
+    }
+    bool operator>=(number_t num) const{
+        if(num.a >= a)return true;
+        else return false;
+    }
+    bool operator<=(number_t num) const{
+        if(num.a <= a)return true;
+        else return false;
+    }
+
     number_t operator+(number_t num) const{
         num.a += a;
         return num;
@@ -56,6 +81,14 @@ struct number_t {
         num.a*=a;
         return num;
     }
+    number_t operator+=(number_t num) const{
+        num.a+=a;
+        return num;
+    }
+    number_t operator-=(number_t num) const{
+        num.a -= a;
+        return num;
+    }
     number_t operator/=(number_t num) const{
         num.a/=a;
         return num;
@@ -67,45 +100,118 @@ struct number_t {
     number_t operator=(number_t num) const{
         return num;
     }
-    number_t operator-(double num) const{
-        number_t temp;
+
+    template<typename T>
+    number_t operator-(T num) const{
+        number_t temp(0);
         temp.a = this->a - num;
         return temp;
     }
-    number_t operator+(double num) const{
-        number_t temp;
+
+    template<typename T>
+    number_t operator+(T num) const{
+        number_t temp(0);
         temp.a = this->a - num;
         return temp;
     }
-    number_t operator*(double num) const{
-        number_t temp;
+
+    template<typename T>
+    number_t operator*(T num) const{
+        number_t temp(0);
         temp.a = this->a * num;
         return temp;
     }
-    number_t operator/(double num) const{
-        number_t temp;
+
+    template<typename T>
+    number_t operator/(T num) const{
+        number_t temp(0);
         temp.a = this->a / num;
         return temp;
     }
-    number_t operator*=(double num) const{
-        number_t temp;
+
+    template<typename T>
+    number_t operator*=(T num) const{
+        number_t temp(0);
         temp.a = this->a * num;
         return temp;
     }
-    number_t operator/=(double num) const{
-        number_t temp;
+
+    template<typename T>
+    number_t operator+=(T num) const{
+        number_t temp(0);
+        temp.a = this->a + num;
+        return temp;
+    }
+
+    template<typename T>
+    number_t operator-=(T num) const{
+        number_t temp(0);
+        temp.a = this->a - num;
+        return temp;
+    }
+
+    template<typename T>
+    number_t operator/=(T num) const{
+        number_t temp(0);
         temp.a = this->a / num;
         return temp;
     }
-    bool operator>(double num) const{
+
+    template<typename T>
+    number_t operator=(T num) const{
+        number_t temp(0);
+        temp.a = num;
+        return temp;
+    }
+
+    template<typename T>
+    bool operator>(T num) const{
         if(num > a)return true;
         else return false;
     }
-    bool operator<(double num) const{
+
+    template<typename T>
+    bool operator<(T num) const{
         if(num < a)return true;
         else return false;
     }
+
+    template<typename T>
+    bool operator!=(T num) const{
+        if(num == a)return true;
+        else return false;
+    }
+
+    template<typename T>
+    bool operator==(T num) const{
+        if(num == a)return true;
+        else return false;
+    }
+
+    template<typename T>
+    bool operator>=(T num) const{
+        if(num >= a)return true;
+        else return false;
+    }
+
+    template<typename T>
+    bool operator<=(T num) const{
+        if(num <= a)return true;
+        else return false;
+    }
+
+    number_t myabs(number_t num){
+        if(num.a<0) { num.a = -num.a; return num; }
+        else return num;
+    }
+
+    template<typename T>
+    operator T() const {
+        return (T)a;
+    }
 };
+
+#define ONE {1, 1}
 
 #include<math.h>
 double atan2(number_t num1, number_t num2){
@@ -126,6 +232,45 @@ double cos(number_t num1){
 
 double log(number_t num){
     return log(num.a);
+}
+
+number_t myabs(number_t num){
+    if(num.a<0) { num.a = -num.a; return num; }
+    else return num;
+}
+
+number_t fabs(number_t num){
+    num.a = fabs(num.a);
+    return num;
+}
+
+number_t sqrt(number_t num){
+    return sqrt(num.a);
+}
+
+template<typename T>
+T operator*(T d, number_t num) {
+    return d * num.a;
+}
+
+template<typename T>
+T operator+(T d, number_t num) {
+    return d + num.a;
+}
+
+template<typename T>
+T operator-(T d, number_t num) {
+    return d - num.a;
+}
+
+template<typename T>
+T operator/(T d, number_t num) {
+    return d/num.a;
+}
+
+template <typename T>
+T operator-(T num) {
+    return num *= (T)1.0;
 }
 
 // Supported color depths

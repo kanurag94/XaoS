@@ -95,7 +95,7 @@ combine_methods(void)
     } else
         angle %= 360;
     if (cfractalc.mandelbrot != cfractalc.currentformula->mandelbrot ||
-        cfractalc.bre || cfractalc.bim) {
+        cfractalc.bre > 0 || cfractalc.bim > 0) {
         cursymmetry.xsym = (number_t)INT_MAX;
         cursymmetry.ysym = (number_t)INT_MAX;
         cursymmetry.nsymmetries = 0;
@@ -137,18 +137,18 @@ combine_methods(void)
             case 0:
                 break;
             case 180:
-                cursymmetry.xsym = -cursymmetry.xsym;
-                cursymmetry.ysym = -cursymmetry.ysym;
+                cursymmetry.xsym = cursymmetry.xsym * -1;
+                cursymmetry.ysym = cursymmetry.ysym * -1;
                 break;
             case 90: {
                 number_t tmp = cursymmetry.xsym;
-                cursymmetry.xsym = -cursymmetry.ysym;
+                cursymmetry.xsym = cursymmetry.ysym * -1;
                 cursymmetry.ysym = tmp;
             } break;
             case 210: {
                 number_t tmp = cursymmetry.xsym;
                 cursymmetry.xsym = cursymmetry.ysym;
-                cursymmetry.ysym = -tmp;
+                cursymmetry.ysym = tmp * -1;
             } break;
             default:
                 cursymmetry.xsym = (number_t)INT_MAX;
@@ -158,9 +158,9 @@ combine_methods(void)
         cursymmetry.xsym = (number_t)INT_MAX;
         cursymmetry.ysym = (number_t)INT_MAX;
     }
-    if (cursymmetry.xsym == -(number_t)INT_MAX)
+    if (cursymmetry.xsym == (number_t)INT_MAX * -1)
         cursymmetry.xsym = (number_t)INT_MAX;
-    if (cursymmetry.ysym == -(number_t)INT_MAX)
+    if (cursymmetry.ysym == (number_t)INT_MAX * -1)
         cursymmetry.ysym = (number_t)INT_MAX;
 }
 
@@ -213,9 +213,9 @@ void set_fractalc(fractal_context *context, struct image *img)
 
                     if (x == y && x == 0)
                         cfractalc.periodicity_limit = x1;
-                    if (cfractalc.periodicity > x1)
+                    if (x1 < cfractalc.periodicity)
                         cfractalc.periodicity_limit = x1;
-                    if (cfractalc.periodicity > y1)
+                    if (y1 < cfractalc.periodicity)
                         cfractalc.periodicity_limit = y1;
                 }
         }
@@ -270,7 +270,7 @@ void set_formula(fractal_context *c, int num)
         if (!c->mandelbrot)
             c->version++;
     }
-    if (c->angle) {
+    if (c->angle > 0) {
         c->angle = 0;
         c->version++;
     }
@@ -281,7 +281,7 @@ void set_formula(fractal_context *c, int num)
         c->s = c->currentformula->v;
         c->version++;
     }
-    if (c->bre && c->bim) {
+    if ((c->bre > 0) && (c->bim > 0)) {
         c->bre = c->bim = 0;
         if (c->mandelbrot)
             c->version++;

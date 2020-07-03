@@ -58,5 +58,8 @@
 #define c_pow4(ar, ai, _or, oi)                                                \
     ((_or) = c_pow4_rp(ar, ai), (oi) = c_pow4_ip(ar, ai))
 
-#define myabs(x) ((x) > 0 ? (x) : -(x))
+double myabs(double x) {
+    if(x < 0) return -x;
+    return x;
+}
 #endif /* COMPLEX_H */
