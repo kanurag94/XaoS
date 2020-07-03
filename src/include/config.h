@@ -47,65 +47,82 @@ struct number_t {
     // Arithmetic Operators
     template<typename T>
     number_t operator-(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a - num;
-        temp.b = this->b - num;
+        temp.a = a - mynum.a;
+        temp.b = b - mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator+(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a - num;
+        temp.a = a + mynum.a;
+        temp.b = b + mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator*(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a * num;
+        temp.a = a * mynum.a;
+        temp.b = b * mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator/(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a / num;
+        temp.a = a / mynum.a;
+        temp.b = b / mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator*=(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a * num;
+        temp.a = a * mynum.a;
+        temp.b = b * mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator+=(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a + num;
+        temp.a = a + mynum.a;
+        temp.b = b + mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator-=(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a - num;
+        temp.a = a - mynum.a;
+        temp.b = b - mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator/=(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = this->a / num;
+        temp.a = a / mynum.a;
+        temp.b = b / mynum.b;
         return temp;
     }
 
     template<typename T>
     number_t operator=(T num) const{
+        number_t mynum(num);
         number_t temp(0);
-        temp.a = num;
+        temp.a = mynum.a;
+        temp.b = mynum.b;
         return temp;
     }
 
