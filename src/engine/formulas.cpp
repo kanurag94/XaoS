@@ -423,7 +423,7 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
             i = (int)(iter + (zre / zim) * SMUL);
             break;
         case 4: /* all of the above */
-            i = (int)(iter + (zre + zim + zre / zim) * SMUL);
+            i = (int)(iter + ((zre + zim) + (zre / zim)) * SMUL);
             break;
         case 5:
             if (zim > 0)

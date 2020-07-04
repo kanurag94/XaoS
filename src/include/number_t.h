@@ -182,31 +182,36 @@ public:
     // Relational Operators
     template<typename T>
     bool operator>(T num) {
-        if(num > a)return true;
+        number_t temp(num);
+        if(a > temp.a || b > temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator<(T num) {
-        if(num < a)return true;
+        number_t temp(num);
+        if(a < temp.a || b < temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator!=(T num) {
-        if(num == a)return true;
+        number_t temp(num);
+        if(a != temp.a || b != temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator==(T num) {
-        if(num == a)return true;
+        number_t temp(num);
+        if(a == temp.a || b == temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator>=(T num) {
-        if(a >= num)return true;
+        number_t temp(num);
+        if(a >= temp.a || b >= temp.b) return true;
         else return false;
     }
 
@@ -221,40 +226,45 @@ public:
     // Relational Operators
     template<typename T>
     bool operator>(T num) const{
-        if(num > a)return true;
+        number_t temp(num);
+        if(a > temp.a || b > temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator<(T num) const{
-        if(num < a)return true;
+        number_t temp(num);
+        if(a < temp.a || b < temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator!=(T num) const{
-        if(num == a)return true;
+        number_t temp(num);
+        if(a != temp.a || b != temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator==(T num) const{
-        if(num == a)return true;
+        number_t temp(num);
+        if(a == temp.a || b == temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator>=(T num) const{
-        if(a >= num)return true;
+        number_t temp(num);
+        if(a >= temp.a || b >= temp.b) return true;
         else return false;
     }
 
     template<typename T>
     bool operator<=(T num) const{
-        if(a <= num)return true;
+        number_t temp(num);
+        if(a <= temp.a || b <= temp.b) return true;
         else return false;
     }
-
 
     // Typecasting
     template<typename T>
