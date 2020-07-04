@@ -68,40 +68,40 @@ public:
     template<typename T>
     number_t operator*=(T num) {
         number_t mynum(num);
-        mynum.a = a * mynum.a;
-        mynum.b = b * mynum.b;
+        a = a * mynum.a;
+        b = b * mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator+=(T num) {
         number_t mynum(num);
-        mynum.a = a + mynum.a;
-        mynum.b = b + mynum.b;
+        a = a + mynum.a;
+        b = b + mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator-=(T num) {
         number_t mynum(num);
-        mynum.a = a - mynum.a;
-        mynum.b = b - mynum.b;
+        a = a - mynum.a;
+        b = b - mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator/=(T num) {
         number_t mynum(num);
-        mynum.a = a / mynum.a;
-        mynum.b = b / mynum.b;
+        a = a / mynum.a;
+        b = b / mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator=(T num) {
         number_t mynum(num);
-        mynum.a = mynum.a;
-        mynum.b = mynum.b;
+        a = mynum.a;
+        b = mynum.b;
         return mynum;
     }
 
@@ -143,32 +143,32 @@ public:
     template<typename T>
     number_t operator*=(T num) volatile{
         number_t mynum(num);
-        mynum.a = a * mynum.a;
-        mynum.b = b * mynum.b;
+        a = a * mynum.a;
+        b = b * mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator+=(T num) volatile{
         number_t mynum(num);
-        mynum.a = a + mynum.a;
-        mynum.b = b + mynum.b;
+        a = a + mynum.a;
+        b = b + mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator-=(T num) volatile{
         number_t mynum(num);
-        mynum.a = a - mynum.a;
-        mynum.b = b - mynum.b;
+        a = a - mynum.a;
+        b = b - mynum.b;
         return mynum;
     }
 
     template<typename T>
     number_t operator/=(T num) volatile{
         number_t mynum(num);
-        mynum.a = a / mynum.a;
-        mynum.b = b / mynum.b;
+        a = a / mynum.a;
+        b = b / mynum.b;
         return mynum;
     }
 
