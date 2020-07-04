@@ -24,6 +24,7 @@
 #define AUTOPILOT_H
 
 #include "config.h"
+#include "number_t.h"
 #include "ui_helper.h"
 
 void do_autopilot(uih_context *, int *, int *, int *, void (*)(void),

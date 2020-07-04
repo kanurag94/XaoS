@@ -1,4 +1,5 @@
 ﻿#include "config.h"
+#include "number_t.h"
 
 #ifndef JULIA_H
 #define JULIA_H

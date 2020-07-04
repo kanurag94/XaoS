@@ -22,6 +22,7 @@
  * All ugly architecture depended timing code is separated into this file..
  */
 #include "config.h"
+#include "number_t.h"
 #include "timers.h"
 #include <cstdlib>
 #include <climits>

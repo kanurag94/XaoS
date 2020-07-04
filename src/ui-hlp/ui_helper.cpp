@@ -12,6 +12,7 @@
 #endif
 
 #include "config.h"
+#include "number_t.h"
 #include "filter.h"
 #include "ui_helper.h"
 #include "plane.h"
@@ -1403,7 +1404,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
             if (srr == drr)
                 mmul1 = mmul;
             else
-                mmul1 = (exp(log(srr) + ((log(drr) - log(srr)) * mmul)) - srr) /
+                mmul1 = (exp(log((double)srr) + ((log((double)drr) - log((double)srr)) * mmul)) - srr) /
                         (drr - srr);
             if (mmul1 > 1)
                 mmul1 = 1;
@@ -1515,7 +1516,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
 
                     x = (mousex - c->image->width / 2) * c->image->pixelwidth;
                     y = (mousey - c->image->height / 2) * c->image->pixelheight;
-                    angle = -atan2(x, y) * 180 / M_PI;
+                    angle = -atan2((double)x, (double)y) * 180 / M_PI;
                     if (c->rotatepressed) {
                         uih_angle(uih,
                                   c->fcontext->angle + angle - c->oldangle);

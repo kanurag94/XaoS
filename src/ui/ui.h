@@ -23,6 +23,7 @@
 #define UI_H
 #include <QFont>
 #include "config.h"
+#include "number_t.h"
 #include "param.h"
 #include "xmenu.h"
 void ui_quit(int);

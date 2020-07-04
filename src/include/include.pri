@@ -14,6 +14,7 @@ HEADERS += \
     $$PWD/hicolor.h \
     $$PWD/i18n.h \
     $$PWD/misc-f.h \
+    $$PWD/number_t.h \
     $$PWD/param.h \
     $$PWD/pixel_t.h \
     $$PWD/plane.h \
@@ -39,3 +40,5 @@ HEADERS += \
     $$PWD/gsl/gsl_types.h \
     $$PWD/gsl/gsl_sys.h \
     $$PWD/gsl/gsl_inline.h
+
+SOURCES +=

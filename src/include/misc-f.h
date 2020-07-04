@@ -2,6 +2,8 @@
 #define IUTIL_H
 #include "xio.h"
 #include "config.h"
+#include "number_t.h"
+
 struct image;
 
 const char *writepng(xio_constpath filename, const struct image *image, xio_file xpf_data);

@@ -23,6 +23,7 @@
 #define FORMULAS_H
 
 #include "config.h"
+#include "number_t.h"
 #include "fractal.h"
 
 #define MAX_LAMBDA 2

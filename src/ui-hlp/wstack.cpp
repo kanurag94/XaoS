@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "config.h"
+#include "number_t.h"
 #include "filter.h"
 #include "ui_helper.h"
 #include "grlib.h"

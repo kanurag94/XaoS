@@ -237,67 +237,67 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
     /* WARNING: r and b fields are swapped for HISTORICAL REASONS (BUG :),
      * in other words: use r for blue and b for red. */
     int r = 0, g = 0, b = 0, w = 0;
-    //long double zre = zrea.a, zim = zima.a, pre = prea.a, pim = pima.a;
+
     switch (mode) {
         case 0:
             break;
         case 1:
-            b = (int)((sin((double)atan2(zre, zim) * 20) + 1) *
+            b = (int)((sin((double)atan2((double)zre, (double)zim) * 20) + 1) *
                       127);
-            w = (int)((sin(zim / zre)) * 127);
-            r = (int)(zre * zim);
-            g = (int)((sin((zre * zre) / 2) + 1) * 127);
+            w = (int)((sin((double)zim / zre)) * 127);
+            r = (int)((int)(zre * zim));
+            g = (int)((sin((double)(zre * zre) / 2) + 1) * 127);
             break;
         case 2:
             if (!inset) {
-                r = (int)((sin(zre * 2) + 1) * 127);
-                g = (int)((sin(zim * 2) + 1) * 127);
-                b = (int)((sin((zim * zim + zre * zre) / 2) + 1) * 127);
+                r = (int)((sin((double)zre * 2) + 1) * 127);
+                g = (int)((sin((double)zim * 2) + 1) * 127);
+                b = (int)((sin((double)(zim * zim + zre * zre) / 2) + 1) * 127);
             } else {
-                r = (int)((sin(zre * 50) + 1) * 127);
-                g = (int)((sin(zim * 50) + 1) * 127);
-                b = (int)((sin((zim * zim + zre * zre) * 50) + 1) *
+                r = (int)((sin((double)zre * 50) + 1) * 127);
+                g = (int)((sin((double)zim * 50) + 1) * 127);
+                b = (int)((sin((double)(zim * zim + zre * zre) * 50) + 1) *
                           127);
             }
-            w = (int)((sin(zim / zre)) * 127);
+            w = (int)((sin((double)zim / zre)) * 127);
             break;
         case 3:
             if (inset)
-                hsv_to_rgb((int)(atan2(zre, zim) * 256 / M_PI),
-                           (int)((sin((zre * 50)) + 1) * 128),
-                           (int)((sin((zim * 50)) + 1) * 128), &r, &g,
+                hsv_to_rgb((int)(atan2((double)zre, (double)zim) * 256 / M_PI),
+                           (int)((sin((double)(zre * 50)) + 1) * 128),
+                           (int)((sin((double)(zim * 50)) + 1) * 128), &r, &g,
                            &b);
             else
-                hsv_to_rgb((int)(atan2(zre, zim) * 256 / M_PI),
-                           (int)((sin(zre) + 1) * 128),
-                           (int)((sin(zim) + 1) * 128), &r, &g, &b);
+                hsv_to_rgb((int)(atan2((double)zre, (double)zim) * 256 / M_PI),
+                           (int)((sin((double)zre) + 1) * 128),
+                           (int)((sin((double)zim) + 1) * 128), &r, &g, &b);
             break;
         case 4:
             if (inset)
                 hsv_to_rgb(
-                    (int)(sin(((zre * zre )+ (zim * zim)) * 0.1) * 256),
-                    (int)(sin(atan2(zre, zim) * 10) * 128 +
+                    (int)(sin((double)(zre * zre + zim * zim) * 0.1) * 256),
+                    (int)(sin(atan2((double)zre, (double)zim) * 10) * 128 +
                           128),
-                    (int)((sin((zre + zim) * 10)) * 65 + 128), &r, &g,
+                    (int)((sin((double)(zre + zim) * 10)) * 65 + 128), &r, &g,
                     &b);
             else
                 hsv_to_rgb(
-                    (int)(sin((zre * zre + zim * zim) * 0.01) * 256),
-                    (int)(sin(atan2(zre, zim) * 10) * 128 +
+                    (int)(sin((double)(zre * zre + zim * zim) * 0.01) * 256),
+                    (int)(sin(atan2((double)zre, (double)zim) * 10) * 128 +
                           128),
-                    (int)((sin((zre + zim) * 0.3)) * 65 + 128), &r, &g,
+                    (int)((sin((double)(zre + zim) * 0.3)) * 65 + 128), &r, &g,
                     &b);
             break;
         case 5: {
             if (!inset) {
-                r = (int)(cos(myabs(zre * zre)) * 128) + 128;
-                g = (int)(cos(myabs(zre * zim)) * 128) + 128;
-                b = (int)(cos(myabs(zim * zim + zre * zre)) * 128) +
+                r = (int)(cos((double)myabs((double)zre * (double)zre)) * 128) + 128;
+                g = (int)(cos((double)myabs((double)zre * (double)zim)) * 128) + 128;
+                b = (int)(cos((double)myabs((double)zim * zim + (double)zre * zre)) * 128) +
                     128;
             } else {
-                r = (int)(cos(myabs(zre * zre) * 10) * 128) + 128;
-                g = (int)(cos(myabs(zre * zim) * 10) * 128) + 128;
-                b = (int)(cos(myabs(zim * zim + zre * zre) * 10) *
+                r = (int)(cos((double)myabs((double)zre * zre) * 10) * 128) + 128;
+                g = (int)(cos((double)myabs((double)zre * zim) * 10) * 128) + 128;
+                b = (int)(cos((double)myabs((double)zim * zim + (double)zre * zre) * 10) *
                           128) +
                     128;
             }
@@ -314,42 +314,42 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
         } break;
         case 7: {
             if (!inset) {
-                r = (int)((zre * zre + zim * zim - pre * pre - pim * pim) * 16);
-                g = (int)((zre * zre * 2 - pre * pre - pim * pim) * 16);
-                b = (int)((zim * zim * 2 - pre * pre - pim * pim) * 16);
+                r = (int)(((double)zre * zre + (double)zim * zim - (double)pre * pre - (double)pim * pim) * 16);
+                g = (int)(((double)zre * zre * 2 - (double)pre * pre - (double)pim * pim) * 16);
+                b = (int)(((double)zim * zim * 2 - (double)pre * pre - (double)pim * pim) * 16);
             } else {
-                r = (int)((zre * zre + zim * zim - pre * pre - pim * pim) *
+                r = (int)(((double)zre * zre + (double)zim * zim - (double)pre * pre - (double)pim * pim) *
                           256);
-                g = (int)((zre * zre * 2 - pre * pre - pim * pim) * 256);
-                b = (int)((zim * zim * 2 - pre * pre - pim * pim) * 256);
+                g = (int)(((double)zre * zre * 2 - (double)pre * pre - (double)pim * pim) * 256);
+                b = (int)(((double)zim * zim * 2 - (double)pre * pre - (double)pim * pim) * 256);
             }
         } break;
         case 8: {
             if (!inset) {
-                r = (int)((myabs(zim * pim)) * 64);
-                g = (int)((myabs(zre * pre)) * 64);
-                b = (int)((myabs(zre * pim)) * 64);
+                r = (int)((myabs((double)zim * pim)) * 64);
+                g = (int)((myabs((double)zre * pre)) * 64);
+                b = (int)((myabs((double)zre * pim)) * 64);
             } else {
-                r = (int)((myabs(zim * pim)) * 256);
-                g = (int)((myabs(zre * pre)) * 256);
-                b = (int)((myabs(zre * pim)) * 256);
+                r = (int)((myabs((double)zim * pim)) * 256);
+                g = (int)((myabs((double)zre * pre)) * 256);
+                b = (int)((myabs((double)zre * pim)) * 256);
             }
         } break;
         case 9: {
             if (!inset) {
-                r = (int)((myabs(zre * zim - pre * pre - pim * pim)) * 64);
-                g = (int)((myabs(zre * zre - pre * pre - pim * pim)) * 64);
-                b = (int)((myabs(zim * zim - pre * pre - pim * pim)) * 64);
+                r = (int)((myabs((double)zre * zim - (double)pre * pre - (double)pim * pim)) * 64);
+                g = (int)((myabs((double)zre * zre - (double)pre * pre - (double)pim * pim)) * 64);
+                b = (int)((myabs((double)zim * zim - (double)pre * pre - (double)pim * pim)) * 64);
             } else {
-                r = (int)((myabs(zre * zim - pre * pre - pim * pim)) * 256);
-                g = (int)((myabs(zre * zre - pre * pre - pim * pim)) * 256);
-                b = (int)((myabs(zim * zim - pre * pre - pim * pim)) * 256);
+                r = (int)((myabs((double)zre * zim - (double)pre * pre - (double)pim * pim)) * 256);
+                g = (int)((myabs((double)zre * zre - (double)pre * pre - (double)pim * pim)) * 256);
+                b = (int)((myabs((double)zim * zim - (double)pre * pre - (double)pim * pim)) * 256);
             }
         } break;
         case 10: {
-            r = (int)(atan2(zre, zim) * 128 / M_PI) + 128;
-            g = (int)(atan2(zre, zim) * 128 / M_PI) + 128;
-            b = (int)(atan2(zim, zre) * 128 / M_PI) + 128;
+            r = (int)(atan2((double)zre, (double)zim) * 128 / M_PI) + 128;
+            g = (int)(atan2((double)zre, (double)zim) * 128 / M_PI) + 128;
+            b = (int)(atan2((double)zim, (double)zre) * 128 / M_PI) + 128;
         } break;
             // case 11 is for disabling truecolor mode
         case 12: {
@@ -409,24 +409,24 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
     int i;
     iter <<= SHIFT;
     i = iter;
-//    long double zre = zrea.a, zim = zima.a;
+
     switch (cfractalc.coloringmode) {
         case 9:
             break;
         case 1: /* real */
-            i = (int)(zre * SMUL + iter);
+            i = (int)(iter + zre * SMUL);
             break;
         case 2: /* imag */
-            i = (int)(zim * SMUL + iter);
+            i = (int)(iter + zim * SMUL);
             break;
         case 3: /* real / imag */
-            i = (int)((zre / zim) * SMUL + iter);
+            i = (int)(iter + (zre / zim) * SMUL);
             break;
         case 4: /* all of the above */
-            i = (int)((zre + zim + zre / zim) * SMUL + iter);
+            i = (int)(iter + (zre + zim + zre / zim) * SMUL);
             break;
         case 5:
-            if (zim > (double)0)
+            if (zim > 0)
                 i = ((cfractalc.maxiter << SHIFT) - iter);
             break;
         case 6:
@@ -435,11 +435,11 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
             break;
         case 7:
             zre = zre * zre + zim * zim;
-            i = (int)(sqrt(log(zre) / i) * 256 * 256);
+            i = (int)(sqrt(log((double)zre) / i) * 256 * 256);
             break;
         default:
         case 8:
-            i = (int)((atan2(zre, zim) / (M_PI + M_PI) + 0.75) *
+            i = (int)((atan2((double)zre, (double)zim) / (M_PI + M_PI) + 0.75) *
                       20000);
             break;
     }
@@ -475,10 +475,9 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
                                    number_t pim, unsigned int iter)
 {
     int i = iter;
-//    long double zre = zrea.a, zim = zima.a, pre = prea.a, pim = pima.a;
     switch (cfractalc.incoloringmode) {
         case 1: /* zmag */
-            i = (int)(((zre * zre + zim * zim) *
+            i = (int)((((zre * zre) + (zim * zim)) *
                            (number_t)(cfractalc.maxiter >> 1) * SMUL +
                        SMUL));
             break;
@@ -490,7 +489,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
         default:
             break;
         case 3: /* real / imag */
-            i = (int)((zre / zim) * SMUL * 10 + 100);
+            i = (int)(100 + (zre / zim) * SMUL * 10);
             break;
         case 4:
             zre = myabs(zre);
@@ -502,28 +501,28 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
             break;
         case 5:
             if (((int)((zre * zre + zim * zim) * 10)) % 2)
-                i = (int)(cos((zre * zim) * (pre * pim)) * 256 * 256);
+                i = (int)(cos((double)(zre * zim * pre * pim)) * 256 * 256);
             else
-                i = (int)(sin(((zre * zim) * (pre * pim))) * 256 * 256);
+                i = (int)(sin((double)(zre * zim * pre * pim)) * 256 * 256);
             break;
         case 6:
-            i = (int)((zre * zre + zim * zim) * cos((zre * zre)) * 256 *
+            i = (int)((zre * zre + zim * zim) * cos((double)(zre * zre)) * 256 *
                       256);
             break;
         case 7:
-            i = (int)(sin(((zre * zre )- (zim * zim))) * 256 * 256);
+            i = (int)(sin((double)(zre * zre - zim * zim)) * 256 * 256);
             break;
         case 8:
-            i = (int)(atan(((zre * zim) * (pre * pim))) * 256 * 64);
+            i = (int)(atan((double)(zre * zim * pre * pim)) * 256 * 64);
             break;
         case 9:
             if ((abs((int)(zre * 40)) % 2) ^ (abs((int)(zim * 40)) % 2))
                 i = (int)((
-                    (atan2(zre, zim) / (M_PI + M_PI) + 0.75) *
+                    (atan2((double)zre, (double)zim) / (M_PI + M_PI) + 0.75) *
                     20000));
             else
                 i = (int)((
-                    (atan2(zim, zre) / (M_PI + M_PI) + 0.75) *
+                    (atan2((double)zim, (double)zre) / (M_PI + M_PI) + 0.75) *
                     20000));
             break;
     };
@@ -555,7 +554,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 #define UNCOMPRESS
 #define PRETEST 0
 #define FORMULA                                                                \
-    zim = ((zim * zre) * (double)2) + pim;                                               \
+    zim = (zim * zre) * 2 + pim;                                               \
     zre = rp - ip + pre;                                                       \
     ip = zim * zim;                                                            \
     rp = zre * zre;
@@ -599,8 +598,8 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 
 #define PRETEST 0
 #define FORMULA                                                                \
-    rp = zre * (rp - ip * 3);                                                  \
-    zim = zim * (zre * zre * 3 - ip) + pim;                                    \
+    rp = zre * (rp - 3 * ip);                                                  \
+    zim = zim * (3 * zre * zre - ip) + pim;                                    \
     zre = rp + pre;                                                            \
     rp = zre * zre;                                                            \
     ip = zim * zim;
@@ -634,9 +633,9 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
     rp = zre * zre;
 #define BTEST                                                                  \
     (rp + ip < (number_t)100 * 100 &&                                          \
-     (rp - zre * 2 + ip) > 0.04 / cfractalc.bailout - 1)
+     (rp - 2 * zre + ip) > 0.04 / cfractalc.bailout - 1)
 #define POSTCALC                                                               \
-    if (rp - zre * 2 + ip > 0.04 / cfractalc.bailout - 1) {                    \
+    if (rp - 2 * zre + ip > 0.04 / cfractalc.bailout - 1) {                    \
         zre *= 0.08 / cfractalc.bailout, zim *= 0.08 / cfractalc.bailout;      \
         if (iter)                                                              \
             iter = cfractalc.maxiter - iter + 1;                               \
@@ -685,9 +684,9 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
     rp = zre * zre;
 #define BTEST                                                                  \
     (rp + ip < (number_t)100 * 100 &&                                          \
-     (rp - zre * 2 + ip) > 0.04 / cfractalc.bailout - 1)
+     (rp - 2 * zre + ip) > 0.04 / cfractalc.bailout - 1)
 #define POSTCALC                                                               \
-    if (rp - zre * 2 + ip > 0.04 / cfractalc.bailout - 1) {                    \
+    if (rp - 2 * zre + ip > 0.04 / cfractalc.bailout - 1) {                    \
         zre *= 0.08 / cfractalc.bailout, zim *= 0.08 / cfractalc.bailout;      \
         if (iter)                                                              \
             iter = cfractalc.maxiter - iter + 1;                               \
@@ -707,8 +706,8 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 
 #define BTEST less_than_4(rp + ip)
 #define FORMULA                                                                \
-    rp = rp * rp - rp * ip * 6 + ip * ip + pre;                                \
-    zim = zre * zre * zre * zim * 4 - 4 * zre * ip * zim + pim;                \
+    rp = rp * rp - 6 * rp * ip + ip * ip + pre;                                \
+    zim = 4 * zre * zre * zre * zim - 4 * zre * ip * zim + pim;                \
     zre = rp;                                                                  \
     rp = zre * zre;                                                            \
     ip = zim * zim;
@@ -848,7 +847,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 #define BTEST less_than_4(rp + ip)
 #define FORMULA                                                                \
     rp = ip - rp + zre;                                                        \
-    ip = zim - zre * zim * 2;                                                  \
+    ip = zim - 2 * zre * zim;                                                  \
     c_mul(rp, ip, pre, pim, zre, zim);                                         \
     rp = zre * zre;                                                            \
     ip = zim * zim;
@@ -908,15 +907,15 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
         pim = 0.8660254;                                                       \
     }                                                                          \
     if (pim < 0)                                                               \
-        pim = (pim * -1.0);                                                          \
+        pim = (-pim);                                                          \
     if (((pim * zre - pre * zim) < 0) || (zim < 0)) {                          \
-        zre = pre * 2 + 2;                                                     \
-        zim = pim * 2;                                                         \
+        zre = 2 * pre + 2;                                                     \
+        zim = 2 * pim;                                                         \
     }
 #define BTEST ((pim * zre + (1 - pre) * zim) < pim)
 #define FORMULA                                                                \
-    zre = zre * 2;                                                             \
-    zim = zim * 2;                                                             \
+    zre = 2 * zre;                                                             \
+    zim = 2 * zim;                                                             \
     if ((pim * zre - pre * zim) > pim)                                         \
         zre = zre - 1;                                                         \
     if (zim > pim) {                                                           \
@@ -934,15 +933,15 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
         pim = 0.8660254;                                                       \
     }                                                                          \
     if (pim < 0)                                                               \
-        pim = (pim * -1.0);                                                          \
+        pim = (-pim);                                                          \
     if (((pim * zre - pre * zim) < 0) || (zim < 0)) {                          \
-        zre = pre * 2 + 2;                                                     \
-        zim = pim * 2;                                                         \
+        zre = 2 * pre + 2;                                                     \
+        zim = 2 * pim;                                                         \
     }
 #define BTEST ((pim * zre + (1 - pre) * zim) < pim)
 #define FORMULA                                                                \
-    zre = zre * 1.6180339;                                                     \
-    zim = zim * 1.6180339;                                                     \
+    zre = 1.6180339 * zre;                                                     \
+    zim = 1.6180339 * zim;                                                     \
     if ((pim * zre - pre * zim) > pim * 0.6180339)                             \
         zre = zre - 0.6180339;                                                 \
     if (zim > pim * 0.6180339) {                                               \
@@ -957,8 +956,8 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 #define INIT
 #define BTEST (zre * zre + zim * zim < 1)
 #define FORMULA                                                                \
-    zre = zre * 3;                                                             \
-    zim = zim * 3;                                                             \
+    zre = 3 * zre;                                                             \
+    zim = 3 * zim;                                                             \
     if ((zim - 2) * (zim - 2) + zre * zre < 1)                                 \
         zim = zim - 2;                                                         \
     if ((zim + 2) * (zim + 2) + zre * zre < 1)                                 \
@@ -1013,9 +1012,9 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
         pim = 1;                                                               \
     }                                                                          \
     if (pre < 0)                                                               \
-        pre = (pre * -1.0);                                                          \
+        pre = (-pre);                                                          \
     if (pim < 0)                                                               \
-        pim = (pim * -1.0);                                                          \
+        pim = (-pim);                                                          \
     if ((zre < 0) || (zre > pre)) {                                            \
         zre = pre / 2;                                                         \
         zim = pim / 2;                                                         \
@@ -1025,17 +1024,17 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
         zim = pim / 2;                                                         \
     }
 #define BTEST                                                                  \
-    ((zre < pre / 3) || (zre > ((pre / 3) * 2)) || (zim < pim / 3) ||          \
-     (zim > (pim / 3) * 2))
+    ((zre < pre / 3) || (zre > 2 * pre / 3) || (zim < pim / 3) ||              \
+     (zim > 2 * pim / 3))
 #define FORMULA                                                                \
-    zre = zre * 3;                                                             \
-    zim = zim * 3;                                                             \
-    if (zre > pre * 2)                                                         \
-        zre = zre - pre * 2;                                                   \
+    zre = 3 * zre;                                                             \
+    zim = 3 * zim;                                                             \
+    if (zre > 2 * pre)                                                         \
+        zre = zre - 2 * pre;                                                   \
     else if (zre > pre)                                                        \
         zre = zre - pre;                                                       \
-    if (zim > pim * 2)                                                         \
-        zim = zim - pim * 2;                                                   \
+    if (zim > 2 * pim)                                                         \
+        zim = zim - 2 * pim;                                                   \
     else if (zim > pim)                                                        \
         zim = zim - pim;
 #define CALC carpet_calc
@@ -1044,15 +1043,15 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 
 #define VARIABLES
 #define BTEST                                                                  \
-    ((((zre * 1.5 + zim * 0.8660254038) > 0.8660254038) ||                     \
-      ((zim * 0.8660254038 - zre * 1.5) > 0.8660254038) || (zim < (-0.5))) &&  \
-     (((zre * 1.5 + zim * 0.8660254038) < -0.8660254038) ||                    \
-      ((zim * 0.8660254038 - zre * 1.5) < -0.8660254038) || (zim > 0.5)))
+    ((((1.5 * zre + 0.8660254038 * zim) > 0.8660254038) ||                     \
+      ((0.8660254038 * zim - 1.5 * zre) > 0.8660254038) || (zim < (-0.5))) &&  \
+     (((1.5 * zre + 0.8660254038 * zim) < -0.8660254038) ||                    \
+      ((0.8660254038 * zim - 1.5 * zre) < -0.8660254038) || (zim > 0.5)))
 #define FORMULA                                                                \
-    zre = zre * 3;                                                             \
-    zim = zim * 3;                                                             \
-    if ((zim * 0.2886751346 - zre * 0.5) > 0.0) {                              \
-        if ((zim * 0.2886751346 + zre * 0.5) > 0.0) {                          \
+    zre = 3 * zre;                                                             \
+    zim = 3 * zim;                                                             \
+    if ((0.2886751346 * zim - 0.5 * zre) > 0.0) {                              \
+        if ((0.2886751346 * zim + 0.5 * zre) > 0.0) {                          \
             zim = zim - 2.0;                                                   \
         } else {                                                               \
             if (zim > 0) {                                                     \
@@ -1064,7 +1063,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
             }                                                                  \
         }                                                                      \
     } else {                                                                   \
-        if ((zim * 0.2886751346 + zre * 0.5) < 0.0) {                          \
+        if ((0.2886751346 * zim + 0.5 * zre) < 0.0) {                          \
             zim = zim + 2.0;                                                   \
         } else {                                                               \
             if (zim > 0) {                                                     \
@@ -1082,15 +1081,15 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 
 #define VARIABLES number_t zre1, zim1;
 #define INIT                                                                   \
-    pim = fabs(pim);                                                           \
+    pim = fabs((double)pim);                                                           \
     zre = pre;                                                                 \
     zim = pim;
 #define BTEST                                                                  \
     (!((zre < 0) && (zim > 0) &&                                               \
-       (zre * -1.0 + zim * 1.732050808 < 1.732050808)))
+       (-1.0 * zre + 1.732050808 * zim < 1.732050808)))
 #define FORMULA                                                                \
-    zre1 = zre * 1.5 - 0.866 + zim * 0.866;                                    \
-    zim1 = -1.5 + zim * 1.5 - zre * 0.866;                                     \
+    zre1 = 1.5 * zre - 0.866 + 0.866 * zim;                                    \
+    zim1 = -1.5 + 1.5 * zim - 0.866 * zre;                                     \
     zre = zre1;                                                                \
     zim = zim1;
 #define CALC hornflake_calc
@@ -1142,7 +1141,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
         zim = 2 * zre * zim + pim * zre;                                       \
         zre = rp - ip - 1 + pre * zre;                                         \
     } else {                                                                   \
-        zim = zre * zim * 2;                                                   \
+        zim = 2 * zre * zim;                                                   \
         zre = rp - ip - 1;                                                     \
     }                                                                          \
     rp = zre * zre;                                                            \
@@ -1168,7 +1167,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
     sqrr = sqri - n;                                                           \
     sqri = n + sqri;                                                           \
     n = 0.3333333333 / ((sqri * sqri));                                        \
-    zim = zim * (0.66666666)  - (zre + zre) * zim * n + pim;                    \
+    zim = (0.66666666) * zim - (zre + zre) * zim * n + pim;                    \
     zre = (0.66666666) * zre + (sqrr)*n + pre;                                 \
     zre1 -= zre;                                                               \
     zim1 -= zim;                                                               \
@@ -1204,7 +1203,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 #define BTEST less_than_4(rp + ip)
 #define FORMULA                                                                \
     rp = rp - ip + pre + pim * zpr;                                            \
-    ip = zre * zim * 2 + pim * zip;                                            \
+    ip = 2 * zre * zim + pim * zip;                                            \
     zpr = zre, zip = zim;                                                      \
     zre = rp;                                                                  \
     zim = ip;                                                                  \
@@ -1237,7 +1236,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
 #include "docalc.h"
 
 #define VARIABLES number_t yre, yim, re1tmp, re2tmp, im1tmp;
-#define BTEST ((rp + ip) < 9 || ((yre * yre) + (yim * yim)) < (rp + ip) * 4)
+#define BTEST (rp + ip < 9 || (yre * yre + yim * yim) < 4 * (rp + ip))
 #define INIT                                                                   \
     yre = pre;                                                                 \
     yim = pim;

@@ -1,9 +1,9 @@
 ﻿#include "config.h"
+#include "number_t.h"
 #ifndef __cplusplus
 #include <cmath>
 #endif
 #include <cstring>
-#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include "xerror.h"

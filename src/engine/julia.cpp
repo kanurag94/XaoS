@@ -1,11 +1,11 @@
 ﻿#include <cmath>
 #include <cstring>
 #include "config.h"
+#include "number_t.h"
 #include <cstdio>
 #include <cstdlib>
 #include "filter.h"
 #include "julia.h"
-#include "config.h"
 #include "filter.h"
 
 /*most of code was moved to docalc.c */
@@ -21,7 +21,7 @@ void init_julia(struct image *img, number_t rangep, number_t range,
     unsigned char *addr, **addr1 = img->currlines;
     for (i = 0; i < img->height; i++) {
         im = IMIN + (i + 0.5) * ystep;
-        x = (int)(sqrt(rangep - im * im) * xdelta + 0.5);
+        x = (int)(sqrt((double)rangep - (double)im * im) * xdelta + 0.5);
         if (!i || i == img->height - 1)
             x = 0;
         addr = addr1[i];

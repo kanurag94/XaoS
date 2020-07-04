@@ -1,6 +1,7 @@
 ﻿#include <QtWidgets>
 
 #include "config.h"
+#include "number_t.h"
 #include "filter.h"
 #include "grlib.h"
 #include "xio.h"

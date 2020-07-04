@@ -9,6 +9,7 @@
 #endif
 
 #include "config.h"
+#include "number_t.h"
 #include "filter.h"
 #include "fractal.h"
 #include "ui_helper.h"

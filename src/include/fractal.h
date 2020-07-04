@@ -23,6 +23,7 @@
 #define FRACTAL1_H
 
 #include "config.h"
+#include "number_t.h"
 #ifdef USE_SFFE
 #include "sffe.h"
 #endif

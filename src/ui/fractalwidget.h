@@ -2,6 +2,7 @@
 #define FRACTALWIDGET_H
 
 #include "config.h"
+#include "number_t.h"
 #include <QWidget>
 #ifdef USE_OPENGL
 #include <QGLWidget>

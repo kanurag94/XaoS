@@ -3,6 +3,7 @@
  * does an simple edge detection algo on it.
  */
 #include "config.h"
+#include "number_t.h"
 #include <cstdlib>
 #include <cstdio> /*for NULL */
 #define SLARGEITER

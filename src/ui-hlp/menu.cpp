@@ -6,6 +6,7 @@
 
 #include "filter.h"
 #include "config.h"
+#include "number_t.h"
 #include "formulas.h"
 #include "ui_helper.h"
 #include "plane.h"

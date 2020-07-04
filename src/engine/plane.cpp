@@ -23,6 +23,7 @@
 #include <cmath>
 #include <climits>
 #include "config.h"
+#include "number_t.h"
 #include "plane.h"
 #include "cmplx.h"
 const char *const planename[] = {

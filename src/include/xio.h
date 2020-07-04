@@ -4,6 +4,7 @@ have stdio!) and allow general streams to strings etc. */
 #ifndef XIO1_H
 #define XIO1_H 1
 #include "config.h"
+#include "number_t.h"
 
 #define XIO_FAILED NULL
 struct xio_filestruct {

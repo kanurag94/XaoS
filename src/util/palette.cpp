@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <climits>
 #include "config.h"
+#include "number_t.h"
 #include "filter.h"
 #include "misc-f.h"
 #include "xerror.h"

@@ -55,13 +55,6 @@
 #define look2 look232
 #include "autod.h"
 
-#ifdef USE_FLOAT128
-#include <quadmath.h>
-#define isnan isnanq
-#else
-#define isnan std::isnan
-#endif
-
 void clean_autopilot(uih_context *context)
 {
     context->minsize = 1000;
@@ -103,17 +96,17 @@ void do_autopilot(uih_context *context, int *x, int *y, int *controls,
     uih_clearwindows(context);
     context->zengine->action->convertup(context->zengine, x, y);
     if ((context->minlong > MINCOUNT && context->c1 == BUTTON3) ||
-        !(pos > context->fcontext->rs.mc) ||
-        !(ypos > context->fcontext->rs.mi) ||
-        (pos1 >= context->fcontext->rs.mc) ||
-        (ypos1 >= context->fcontext->rs.mi) ||
+        !(context->fcontext->rs.mc < pos) ||
+        !(context->fcontext->rs.mi < ypos) ||
+        (context->fcontext->rs.mc <= pos1) ||
+        (context->fcontext->rs.mi <= ypos) ||
         context->fcontext->rs.mc - context->fcontext->rs.nc > 100.0 ||
-        isnan(pos) || isnan(ypos) || isnan(context->fcontext->s.cr) ||
-        isnan(context->fcontext->s.ci) ||
-        isnan(context->fcontext->s.rr - context->fcontext->s.ri) ||
+        isnan((double)pos) || isnan((double)ypos) || isnan((double)context->fcontext->s.cr) ||
+        isnan((double)context->fcontext->s.ci) ||
+        isnan((double)context->fcontext->s.rr - (double)context->fcontext->s.ri) ||
         context->fcontext->s.rr == 0 || context->fcontext->s.ri == 0 ||
-        isnan(context->fcontext->rs.mc - context->fcontext->rs.mi) ||
-        isnan(context->fcontext->rs.nc - context->fcontext->rs.ni)) {
+        isnan((double)context->fcontext->rs.mc - (double)context->fcontext->rs.mi) ||
+        isnan((double)context->fcontext->rs.nc - (double)context->fcontext->rs.ni)) {
         again(context);
         changed();
     }

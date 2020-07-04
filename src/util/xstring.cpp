@@ -2,6 +2,7 @@
 #include <cstdlib>
 
 #include "config.h"
+#include "number_t.h"
 #include "xio.h"
 #include "misc-f.h"
 

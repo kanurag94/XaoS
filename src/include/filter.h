@@ -1,6 +1,7 @@
 ﻿#ifndef IMAGE_H
 #define IMAGE_H
 #include "config.h"
+#include "number_t.h"
 
 typedef unsigned char pixel_t;
 typedef unsigned char

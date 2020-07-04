@@ -27,6 +27,7 @@
 #include <cassert>
 #include <cmath>
 #include "config.h"
+#include "number_t.h"
 #include "filter.h"
 #include "cmplx.h"
 #include "plane.h"
@@ -46,8 +47,8 @@ static symmetry2 sym_lines[100];
 
 static void precalculate_rotation(fractal_context *c)
 {
-    c->sin = sin((c->angle) * M_PI / 180);
-    c->cos = cos((c->angle) * M_PI / 180);
+    c->sin = sin((double)(c->angle) * M_PI / 180);
+    c->cos = cos((double)(c->angle) * M_PI / 180);
 }
 
 static void recalc_view(fractal_context *c)

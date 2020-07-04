@@ -5,6 +5,7 @@
 #include "customdialog.h"
 
 #include "config.h"
+#include "number_t.h"
 #include "ui.h"
 #include "misc-f.h"
 #include "filter.h"

@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "config.h"
+#include "number_t.h"
 #include "xerror.h"
 /*On windows we use message boxes done in the ui_win32.c code*/
 void x_message(const char *text, ...)

@@ -2,6 +2,7 @@
 #define XMENU_H
 #include "xio.h"
 #include "config.h"
+#include "number_t.h"
 
 struct uih_context;
 typedef union {

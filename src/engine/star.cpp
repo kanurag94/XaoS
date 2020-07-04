@@ -1,5 +1,5 @@
 ﻿#include "config.h"
-#include "config.h"
+#include "number_t.h"
 #include <climits>
 #include <cstdlib>
 #include "filter.h"

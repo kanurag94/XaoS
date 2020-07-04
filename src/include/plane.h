@@ -23,6 +23,7 @@
 #define PLANE_H
 
 #include "config.h"
+#include "number_t.h"
 #include "zoom.h"
 
 /*#define PLANES 7*/

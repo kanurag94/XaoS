@@ -12,6 +12,7 @@
 #ifndef THREAD_H
 #define THREAD_H 1
 #include "config.h"
+#include "number_t.h"
 #define MAXTHREADS 32
 /*You might increase this constant if needed
    (xaos on connection machine? :) */

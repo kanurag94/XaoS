@@ -30,6 +30,7 @@
 
 #include <cstdio>
 #include "config.h"
+#include "number_t.h"
 #include "misc-f.h"
 static unsigned int state;
 void XaoS_srandom(unsigned int x) { state = x; }

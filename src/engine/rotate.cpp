@@ -5,6 +5,7 @@
  * It is used to implement fast rotation mode
  */
 #include "config.h"
+#include "number_t.h"
 #include <cstring>
 #include <climits>
 

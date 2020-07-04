@@ -1,6 +1,7 @@
 ﻿#include <cstdlib>
 #include <cstdio>
 
+#include "number_t.h"
 #include "config.h"
 #include "filter.h"
 /*#define DEBUG */

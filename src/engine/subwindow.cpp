@@ -1,4 +1,5 @@
 ﻿#include "config.h"
+#include "number_t.h"
 #include <cstdlib>
 #include <cstdio>  /*for NULL */
 #include <cstring> /*for memcpy */

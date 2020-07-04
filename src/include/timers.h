@@ -23,6 +23,7 @@
 #ifndef TIMERS_H
 #define TIMERS_H
 #include "config.h"
+#include "number_t.h"
 
 struct timer;
 struct timeemulator;

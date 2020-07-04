@@ -1,4 +1,5 @@
 ﻿#include "config.h"
+#include "number_t.h"
 #include <cstring>
 #include <dirent.h>
 #include <sys/stat.h>
