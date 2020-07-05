@@ -6,11 +6,10 @@
 struct number_t {
 public:
     double a;
-    long double b;
+    double b;
 
     // Constructors
     number_t(){
-        a = 0; b=0;
     }
 
     number_t(number_t& num) {
@@ -27,7 +26,7 @@ public:
 
     template<typename T>
     number_t(T num) {
-        a = num; b=num;
+        a = num; b = num;
     }
 
     // Start operator overloading
@@ -70,7 +69,7 @@ public:
         number_t mynum(num);
         a = a * mynum.a;
         b = b * mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -78,7 +77,7 @@ public:
         number_t mynum(num);
         a = a + mynum.a;
         b = b + mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -86,7 +85,7 @@ public:
         number_t mynum(num);
         a = a - mynum.a;
         b = b - mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -94,7 +93,7 @@ public:
         number_t mynum(num);
         a = a / mynum.a;
         b = b / mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -102,7 +101,7 @@ public:
         number_t mynum(num);
         a = mynum.a;
         b = mynum.b;
-        return mynum;
+        return *this;
     }
 
     // Arithmetic volatile operators
@@ -145,7 +144,7 @@ public:
         number_t mynum(num);
         a = a * mynum.a;
         b = b * mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -153,7 +152,7 @@ public:
         number_t mynum(num);
         a = a + mynum.a;
         b = b + mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -161,7 +160,7 @@ public:
         number_t mynum(num);
         a = a - mynum.a;
         b = b - mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
@@ -169,14 +168,15 @@ public:
         number_t mynum(num);
         a = a / mynum.a;
         b = b / mynum.b;
-        return mynum;
+        return *this;
     }
 
     template<typename T>
     number_t operator=(T num) volatile{
         number_t mynum(num);
-
-        return mynum;
+        a = mynum.a;
+        b = mynum.b;
+        return *this;
     }
 
     // Relational Operators
@@ -284,7 +284,7 @@ public:
 
     //Minus unary operator
     number_t operator-() {
-        number_t num(0);
+        number_t num(*this);
         num.a = -a;
         num.b = -b;
         return num;
@@ -298,23 +298,33 @@ public:
 using namespace std;
 
 template<typename T>
-T operator*(T d, struct number_t num) {
+double operator*(T d, struct number_t num) {
     return d * num.a;
 }
 
 template<typename T>
-T operator+(T d, struct number_t num) {
+double operator+(T d, struct number_t num) {
     return d + num.a;
 }
 
 template<typename T>
-T operator-(T d, struct number_t num) {
+double operator-(T d, struct number_t num) {
     return d - num.a;
 }
 
 template<typename T>
-T operator/(T d, struct number_t num) {
+double operator/(T d, struct number_t num) {
     return d/num.a;
+}
+
+template<typename T>
+bool operator>(T d, struct number_t num) {
+    return d > num.a || d>num.b;
+}
+
+template<typename T>
+bool operator<(T d, struct number_t num) {
+    return d < num.a || d<num.b;
 }
 
 #endif // NUMBER_T_H

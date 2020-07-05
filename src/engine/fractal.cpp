@@ -27,7 +27,6 @@
 #include <cassert>
 #include <cmath>
 #include "config.h"
-#include "number_t.h"
 #include "filter.h"
 #include "cmplx.h"
 #include "plane.h"
@@ -60,7 +59,7 @@ static void recalc_view(fractal_context *c)
     /*assert(c->s.rr >= 0);
        assert(c->s.ri >= 0); */
 
-    xs = myabs(xs); /*do not crash in overflowing cases */
+    xs = myabs(xs); /*do not crash in owerflowing cases */
     ys = myabs(ys);
     if (xs > ys)
         size = xs;
@@ -82,7 +81,7 @@ static void set_view(fractal_context *c, const vinfo *s)
     recalc_view(c);
 }
 
-/*FIXME most of this code is obsolete */
+/*FIXME most of this code is obsolette */
 static void /*inline */
 combine_methods(void)
 {
@@ -96,7 +95,7 @@ combine_methods(void)
     } else
         angle %= 360;
     if (cfractalc.mandelbrot != cfractalc.currentformula->mandelbrot ||
-        cfractalc.bre > 0 || cfractalc.bim > 0) {
+        cfractalc.bre || cfractalc.bim) {
         cursymmetry.xsym = (number_t)INT_MAX;
         cursymmetry.ysym = (number_t)INT_MAX;
         cursymmetry.nsymmetries = 0;
@@ -138,18 +137,18 @@ combine_methods(void)
             case 0:
                 break;
             case 180:
-                cursymmetry.xsym = cursymmetry.xsym * -1;
-                cursymmetry.ysym = cursymmetry.ysym * -1;
+                cursymmetry.xsym = -cursymmetry.xsym;
+                cursymmetry.ysym = -cursymmetry.ysym;
                 break;
             case 90: {
                 number_t tmp = cursymmetry.xsym;
-                cursymmetry.xsym = cursymmetry.ysym * -1;
+                cursymmetry.xsym = -cursymmetry.ysym;
                 cursymmetry.ysym = tmp;
             } break;
             case 210: {
                 number_t tmp = cursymmetry.xsym;
                 cursymmetry.xsym = cursymmetry.ysym;
-                cursymmetry.ysym = tmp * -1;
+                cursymmetry.ysym = -tmp;
             } break;
             default:
                 cursymmetry.xsym = (number_t)INT_MAX;
@@ -159,9 +158,9 @@ combine_methods(void)
         cursymmetry.xsym = (number_t)INT_MAX;
         cursymmetry.ysym = (number_t)INT_MAX;
     }
-    if (cursymmetry.xsym == (number_t)INT_MAX * -1)
+    if (cursymmetry.xsym == -(number_t)INT_MAX)
         cursymmetry.xsym = (number_t)INT_MAX;
-    if (cursymmetry.ysym == (number_t)INT_MAX * -1)
+    if (cursymmetry.ysym == -(number_t)INT_MAX)
         cursymmetry.ysym = (number_t)INT_MAX;
 }
 
@@ -214,9 +213,9 @@ void set_fractalc(fractal_context *context, struct image *img)
 
                     if (x == y && x == 0)
                         cfractalc.periodicity_limit = x1;
-                    if (x1 < cfractalc.periodicity)
+                    if (cfractalc.periodicity > x1)
                         cfractalc.periodicity_limit = x1;
-                    if (y1 < cfractalc.periodicity)
+                    if (cfractalc.periodicity > y1)
                         cfractalc.periodicity_limit = y1;
                 }
         }
@@ -271,7 +270,7 @@ void set_formula(fractal_context *c, int num)
         if (!c->mandelbrot)
             c->version++;
     }
-    if (c->angle > 0) {
+    if (c->angle) {
         c->angle = 0;
         c->version++;
     }
@@ -282,7 +281,7 @@ void set_formula(fractal_context *c, int num)
         c->s = c->currentformula->v;
         c->version++;
     }
-    if ((c->bre > 0) && (c->bim > 0)) {
+    if (c->bre && c->bim) {
         c->bre = c->bim = 0;
         if (c->mandelbrot)
             c->version++;

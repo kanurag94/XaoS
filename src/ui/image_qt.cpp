@@ -123,10 +123,10 @@ void overlayGrid(uih_context *c, int fgcolor)
     painter.setPen(pen);
 
     //Find fractal origin (0,0)
-    long long int x1 = (c->fcontext->rs.nc) /
+    long long int x1 = (0 - c->fcontext->rs.nc) /
         (c->fcontext->rs.mc - c->fcontext->rs.nc) *
         c->zengine->image->width;
-    long long int y1 = (c->fcontext->rs.ni) /
+    long long int y1 = (0 - c->fcontext->rs.ni) /
         (c->fcontext->rs.mi - c->fcontext->rs.ni) *
         c->zengine->image->height;
 

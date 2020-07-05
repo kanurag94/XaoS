@@ -55,6 +55,8 @@
 #define look2 look232
 #include "autod.h"
 
+#define isnan std::isnan
+
 void clean_autopilot(uih_context *context)
 {
     context->minsize = 1000;

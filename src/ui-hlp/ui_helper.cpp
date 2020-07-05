@@ -982,6 +982,7 @@ void uih_do_fractal(uih_context *c)
 
 void uih_prepare_image(uih_context *c)
 {
+    fflush(stdout);
     if (c->play)
         uih_update_lines(c);
     if (c->display) {
@@ -2239,6 +2240,9 @@ void uih_updatestatus(uih_context *uih)
 {
     double times =
         (uih->fcontext->currentformula->v.rr) / (uih->fcontext->s.rr);
+//    printf("%Lf %Lf\n", uih->fcontext->currentformula->v.rr.a, uih->fcontext->currentformula->v.rr.b);
+//    printf("%Lf %Lf\n", uih->fcontext->s.rr.a, uih->fcontext->s.rr.b);
+//    fflush(stdout);
     double timesnop = log(times) / log(10.0);
     double speed;
     uih_drawwindows(uih);

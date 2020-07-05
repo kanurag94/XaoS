@@ -1413,7 +1413,15 @@ static int do_fractal(struct filter *f, int flags, int /*time*/)
 
     f->image->flip(f->image);
     cfilter = *f;
+//    printf("inside zoom start\n");
+//    printf("%Lf %Lf\n", f->fractalc->s.rr.a, f->fractalc->s.rr.b);
+//    printf("%Lf %Lf\n", f->fractalc->s.ri.a, f->fractalc->s.rr.b);
+//    fflush(stdout);
     set_fractalc(f->fractalc, f->image);
+//    printf("%Lf %Lf\n", f->fractalc->s.rr.a, f->fractalc->s.rr.b);
+//    printf("%Lf %Lf\n", f->fractalc->s.ri.a, f->fractalc->s.rr.b);
+//    printf("inside zoom end\n");
+//    fflush(stdout);
 
     if (getzcontext(f)->forversion != f->fractalc->version ||
         getzcontext(f)->newcalc ||

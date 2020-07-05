@@ -106,6 +106,7 @@ const char *const tcolorname[] = {
 #define greater_then_1Em6(n) ((n) > 1E-6)
 #define abs_less_than(x, y) (myabs(x) < y)
 #define greater_than(x, y) ((x) > (y))
+
 #endif
 
 #define PERIINOUTPUT()                                                         \
@@ -290,14 +291,14 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
             break;
         case 5: {
             if (!inset) {
-                r = (int)(cos((double)myabs((double)zre * (double)zre)) * 128) + 128;
-                g = (int)(cos((double)myabs((double)zre * (double)zim)) * 128) + 128;
-                b = (int)(cos((double)myabs((double)zim * zim + (double)zre * zre)) * 128) +
+                r = (int)(cos((double)myabs(zre * zre)) * 128) + 128;
+                g = (int)(cos((double)myabs(zre * zim)) * 128) + 128;
+                b = (int)(cos((double)myabs(zim * zim + zre * zre)) * 128) +
                     128;
             } else {
-                r = (int)(cos((double)myabs((double)zre * zre) * 10) * 128) + 128;
-                g = (int)(cos((double)myabs((double)zre * zim) * 10) * 128) + 128;
-                b = (int)(cos((double)myabs((double)zim * zim + (double)zre * zre) * 10) *
+                r = (int)(cos((double)myabs(zre * zre) * 10) * 128) + 128;
+                g = (int)(cos((double)myabs(zre * zim) * 10) * 128) + 128;
+                b = (int)(cos((double)myabs(zim * zim + zre * zre) * 10) *
                           128) +
                     128;
             }
@@ -314,36 +315,36 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
         } break;
         case 7: {
             if (!inset) {
-                r = (int)(((double)zre * zre + (double)zim * zim - (double)pre * pre - (double)pim * pim) * 16);
-                g = (int)(((double)zre * zre * 2 - (double)pre * pre - (double)pim * pim) * 16);
-                b = (int)(((double)zim * zim * 2 - (double)pre * pre - (double)pim * pim) * 16);
+                r = (int)((zre * zre + zim * zim - pre * pre - pim * pim) * 16);
+                g = (int)((zre * zre * 2 - pre * pre - pim * pim) * 16);
+                b = (int)((zim * zim * 2 - pre * pre - pim * pim) * 16);
             } else {
-                r = (int)(((double)zre * zre + (double)zim * zim - (double)pre * pre - (double)pim * pim) *
+                r = (int)((zre * zre + zim * zim - pre * pre - pim * pim) *
                           256);
-                g = (int)(((double)zre * zre * 2 - (double)pre * pre - (double)pim * pim) * 256);
-                b = (int)(((double)zim * zim * 2 - (double)pre * pre - (double)pim * pim) * 256);
+                g = (int)((zre * zre * 2 - pre * pre - pim * pim) * 256);
+                b = (int)((zim * zim * 2 - pre * pre - pim * pim) * 256);
             }
         } break;
         case 8: {
             if (!inset) {
-                r = (int)((myabs((double)zim * pim)) * 64);
-                g = (int)((myabs((double)zre * pre)) * 64);
-                b = (int)((myabs((double)zre * pim)) * 64);
+                r = (int)((myabs(zim * pim)) * 64);
+                g = (int)((myabs(zre * pre)) * 64);
+                b = (int)((myabs(zre * pim)) * 64);
             } else {
-                r = (int)((myabs((double)zim * pim)) * 256);
-                g = (int)((myabs((double)zre * pre)) * 256);
-                b = (int)((myabs((double)zre * pim)) * 256);
+                r = (int)((myabs(zim * pim)) * 256);
+                g = (int)((myabs(zre * pre)) * 256);
+                b = (int)((myabs(zre * pim)) * 256);
             }
         } break;
         case 9: {
             if (!inset) {
-                r = (int)((myabs((double)zre * zim - (double)pre * pre - (double)pim * pim)) * 64);
-                g = (int)((myabs((double)zre * zre - (double)pre * pre - (double)pim * pim)) * 64);
-                b = (int)((myabs((double)zim * zim - (double)pre * pre - (double)pim * pim)) * 64);
+                r = (int)((myabs(zre * zim - pre * pre - pim * pim)) * 64);
+                g = (int)((myabs(zre * zre - pre * pre - pim * pim)) * 64);
+                b = (int)((myabs(zim * zim - pre * pre - pim * pim)) * 64);
             } else {
-                r = (int)((myabs((double)zre * zim - (double)pre * pre - (double)pim * pim)) * 256);
-                g = (int)((myabs((double)zre * zre - (double)pre * pre - (double)pim * pim)) * 256);
-                b = (int)((myabs((double)zim * zim - (double)pre * pre - (double)pim * pim)) * 256);
+                r = (int)((myabs(zre * zim - pre * pre - pim * pim)) * 256);
+                g = (int)((myabs(zre * zre - pre * pre - pim * pim)) * 256);
+                b = (int)((myabs(zim * zim - pre * pre - pim * pim)) * 256);
             }
         } break;
         case 10: {
@@ -423,7 +424,7 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
             i = (int)(iter + (zre / zim) * SMUL);
             break;
         case 4: /* all of the above */
-            i = (int)(iter + ((zre + zim) + (zre / zim)) * SMUL);
+            i = (int)(iter + (zre + zim + zre / zim) * SMUL);
             break;
         case 5:
             if (zim > 0)
@@ -477,7 +478,7 @@ static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
     int i = iter;
     switch (cfractalc.incoloringmode) {
         case 1: /* zmag */
-            i = (int)((((zre * zre) + (zim * zim)) *
+            i = (int)(((zre * zre + zim * zim) *
                            (number_t)(cfractalc.maxiter >> 1) * SMUL +
                        SMUL));
             break;
