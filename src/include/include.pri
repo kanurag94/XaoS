@@ -41,4 +41,5 @@ HEADERS += \
     $$PWD/gsl/gsl_sys.h \
     $$PWD/gsl/gsl_inline.h
 
-SOURCES +=
+SOURCES += \
+    $$PWD/number_t.cpp

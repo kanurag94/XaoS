@@ -1,8 +1,8 @@
 #ifndef NUMBER_T_H
 #define NUMBER_T_H
-#include<iostream>
+#include <iostream>
 
-#define numeric_type 0
+extern int numeric_type;
 
 // Numeric type
 struct number_t {
