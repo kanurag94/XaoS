@@ -86,15 +86,12 @@ static void save_float(struct uih_context *uih, number_t number)
     else
         first = 0;
     char s[256];
-#ifdef USE_FLOAT128
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#else
-#ifdef USE_LONG_DOUBLE
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#else
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#endif
-#endif
+
+    if(numeric_type == 0)
+        quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
+    else
+        snprintf(s, 256, "%.20LG", (long double)number);
+
     myputs(s);
 }
 
@@ -110,18 +107,16 @@ static void save_float2(struct uih_context *uih, number_t number, int places)
     if (places > 20)
         places = 20;
     char s[256];
-#ifdef USE_FLOAT128
-    snprintf(fs, 10, "%%.%iQG", places);
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#else
-#ifdef USE_LONG_DOUBLE
-    snprintf(fs, 10, "%%.%iQG", places);
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#else
-    snprintf(fs, 10, "%%.%iQG", places);
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#endif
-#endif
+
+    if(numeric_type == 0){
+        snprintf(fs, 10, "%%.%iQG", places);
+        quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
+    }
+    else{
+        snprintf(fs, 10, "%%.%iLG", places);
+        snprintf(s, 256, fs, (long double)number);
+    }
+
     myputs(s);
 }
 

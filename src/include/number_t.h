@@ -8,7 +8,7 @@ extern int numeric_type;
 struct number_t {
 public:
     __float128 a;
-    double b;
+    long double b;
 
     // Constructors
     number_t(){

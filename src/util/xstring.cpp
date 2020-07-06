@@ -17,15 +17,13 @@ struct fr {
 
 number_t xstrtonum(const char *s, char **sp)
 {
-#ifdef USE_FLOAT128
-    return strtoflt128(s, sp);
-#else
-#ifdef USE_LONG_DOUBLE
-    return strtoflt128(s, sp);
-#else
-    return strtoflt128(s, sp);
-#endif
-#endif
+
+    if(numeric_type == 0){
+        return strtoflt128(s, sp);
+    }
+    else{
+        return strtold(s, sp);
+    }
 }
 
 char *mystrdup(const char *c)

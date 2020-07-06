@@ -10,21 +10,19 @@
 #include "misc-f.h"
 #include "filter.h"
 #include "ui_helper.h"
-
 #include <quadmath.h>
 
 QString format(number_t number)
 {
     char buf[256];
-#ifdef USE_FLOAT128
-    quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number.a);
-#else
-#ifdef USE_LONG_DOUBLE
-    quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number.a);
-#else
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
-#endif
-#endif
+
+    if(numeric_type == 0){
+        quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number);
+    }
+    else{
+        snprintf(buf, 256, "%.20Lg", (long double)number);
+    }
+
     return QString(buf);
 }
 
