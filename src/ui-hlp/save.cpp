@@ -12,9 +12,7 @@
 #include "xmenu.h"
 #include "play.h"
 
-#ifdef USE_FLOAT128
 #include <quadmath.h>
-#endif
 
 #define myputs(s)                                                              \
     ((xio_puts(s, uih->savec->file) == XIO_EOF) ? outputerror(uih), 1 : 0)
@@ -89,12 +87,12 @@ static void save_float(struct uih_context *uih, number_t number)
         first = 0;
     char s[256];
 #ifdef USE_FLOAT128
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #else
 #ifdef USE_LONG_DOUBLE
-    snprintf(s, 256, "%.20LG", (long double)number);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #else
-    snprintf(s, 256, "%.20G", (double)number);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #endif
 #endif
     myputs(s);
@@ -114,14 +112,14 @@ static void save_float2(struct uih_context *uih, number_t number, int places)
     char s[256];
 #ifdef USE_FLOAT128
     snprintf(fs, 10, "%%.%iQG", places);
-    quadmath_snprintf(s, 256, "%.34QG", (__float128)number);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #else
 #ifdef USE_LONG_DOUBLE
-    snprintf(fs, 10, "%%.%iLG", places);
-    snprintf(s, 256, fs, (long double)number);
+    snprintf(fs, 10, "%%.%iQG", places);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #else
-    sprintf(fs, 10, "%%.%iG", places);
-    sprintf(s, 256, fs, (double)number);
+    snprintf(fs, 10, "%%.%iQG", places);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #endif
 #endif
     myputs(s);

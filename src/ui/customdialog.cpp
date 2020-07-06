@@ -11,20 +11,18 @@
 #include "filter.h"
 #include "ui_helper.h"
 
-#ifdef USE_FLOAT128
 #include <quadmath.h>
-#endif
 
 QString format(number_t number)
 {
     char buf[256];
 #ifdef USE_FLOAT128
-    quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number);
+    quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number.a);
 #else
 #ifdef USE_LONG_DOUBLE
-    snprintf(buf, 256, "%.20Lg", number);
+    quadmath_snprintf(buf, 256, "%.34Qg", (__float128)number.a);
 #else
-    snprintf(buf, 256, "%.20g", number);
+    quadmath_snprintf(s, 256, "%.34QG", (__float128)number.a);
 #endif
 #endif
     return QString(buf);

@@ -23,6 +23,7 @@ contains(DEFINES, USE_OPENGL) {
 contains(DEFINES, USE_FLOAT128) {
     LIBS += -lquadmath
 } else {
+    LIBS += -lquadmath
     DEFINES += USE_LONG_DOUBLE
 }
 

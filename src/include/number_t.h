@@ -7,7 +7,7 @@ extern int numeric_type;
 // Numeric type
 struct number_t {
 public:
-    long double a;
+    __float128 a;
     double b;
 
     // Constructors
@@ -191,6 +191,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a > temp.a;
         if(numeric_type == 1) return b > temp.b;
+        return false;
     }
 
     template<typename T>
@@ -198,6 +199,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a < temp.a;
         if(numeric_type == 1) return b < temp.b;
+        return false;
     }
 
     template<typename T>
@@ -205,6 +207,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a != temp.a;
         if(numeric_type == 1) return b != temp.b;
+        return false;
     }
 
     template<typename T>
@@ -212,6 +215,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a == temp.a;
         if(numeric_type == 1) return b == temp.b;
+        return false;
     }
 
     template<typename T>
@@ -219,6 +223,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a >= temp.a;
         if(numeric_type == 1) return b >= temp.b;
+        return false;
     }
 
     template<typename T>
@@ -226,6 +231,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a <= temp.a;
         if(numeric_type == 1) return b <= temp.b;
+        return false;
     }
 
     // Const relational operators
@@ -235,6 +241,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a > temp.a;
         if(numeric_type == 1) return b > temp.b;
+        return false;
     }
 
     template<typename T>
@@ -242,6 +249,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a < temp.a;
         if(numeric_type == 1) return b < temp.b;
+        return false;
     }
 
     template<typename T>
@@ -249,6 +257,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a != temp.a;
         if(numeric_type == 1) return b != temp.b;
+        return false;
     }
 
     template<typename T>
@@ -256,6 +265,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a == temp.a;
         if(numeric_type == 1) return b == temp.b;
+        return false;
     }
 
     template<typename T>
@@ -263,6 +273,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a >= temp.a;
         if(numeric_type == 1) return b >= temp.b;
+        return false;
     }
 
     template<typename T>
@@ -270,6 +281,7 @@ public:
         number_t temp(num);
         if(numeric_type == 0) return a <= temp.a;
         if(numeric_type == 1) return b <= temp.b;
+        return false;
     }
 
     // Typecasting
@@ -277,18 +289,21 @@ public:
     operator T() const {
         if(numeric_type == 0) return (T)a;
         if(numeric_type == 1) return (T)b;
+        return 0;
     }
 
     template<typename T>
     operator T() volatile {
         if(numeric_type == 0) return (T)a;
         if(numeric_type == 1) return (T)b;
+        return 0;
     }
 
     template<typename T>
     operator T() {
         if(numeric_type == 0) return (T)a;
         if(numeric_type == 1) return (T)b;
+        return 0;
     }
 
     //Minus unary operator
@@ -302,44 +317,49 @@ public:
 };
 
 #include <math.h>
-#include <iostream>
 
 using namespace std;
 
 template<typename T>
-double operator*(T d, struct number_t num) {
+number_t operator*(T d, struct number_t num) {
     if(numeric_type == 0) return d * num.a;
     if(numeric_type == 1) return d * num.b;
+    return 0;
 }
 
 template<typename T>
-double operator+(T d, struct number_t num) {
+number_t operator+(T d, struct number_t num) {
     if(numeric_type == 0) return d + num.a;
     if(numeric_type == 1) return d + num.b;
+    return 0;
 }
 
 template<typename T>
-double operator-(T d, struct number_t num) {
+number_t operator-(T d, struct number_t num) {
     if(numeric_type == 0) return d - num.a;
     if(numeric_type == 1) return d - num.b;
+    return 0;
 }
 
 template<typename T>
-double operator/(T d, struct number_t num) {
+number_t operator/(T d, struct number_t num) {
     if(numeric_type == 0) return d / num.a;
     if(numeric_type == 1) return d / num.b;
+    return 0;
 }
 
 template<typename T>
 bool operator>(T d, struct number_t num) {
     if(numeric_type == 0) return d > num.a;
     if(numeric_type == 1) return d > num.b;
+    return false;
 }
 
 template<typename T>
 bool operator<(T d, struct number_t num) {
     if(numeric_type == 0) return d < num.a;
     if(numeric_type == 1) return d < num.b;
+    return false;
 }
 
 #endif // NUMBER_T_H

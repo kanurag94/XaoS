@@ -6,9 +6,7 @@
 #include "xio.h"
 #include "misc-f.h"
 
-#ifdef USE_FLOAT128
 #include <quadmath.h>
-#endif
 
 struct fr {
     char *string;
@@ -23,9 +21,9 @@ number_t xstrtonum(const char *s, char **sp)
     return strtoflt128(s, sp);
 #else
 #ifdef USE_LONG_DOUBLE
-    return strtold(s, sp);
+    return strtoflt128(s, sp);
 #else
-    return strtod(s, sp);
+    return strtoflt128(s, sp);
 #endif
 #endif
 }

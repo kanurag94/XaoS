@@ -40,6 +40,7 @@
 #include <cstdio>
 
 #include "config.h"
+#include "number_t.h"
 #include "cmplx.h"
 #include "filter.h"
 #include "fractal.h"
@@ -245,7 +246,7 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
         case 1:
             b = (int)((sin((double)atan2((double)zre, (double)zim) * 20) + 1) *
                       127);
-            w = (int)((sin((double)zim / zre)) * 127);
+            w = (int)((sin((double)zim / (double)zre)) * 127);
             r = (int)((int)(zre * zim));
             g = (int)((sin((double)(zre * zre) / 2) + 1) * 127);
             break;
@@ -260,7 +261,7 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
                 b = (int)((sin((double)(zim * zim + zre * zre) * 50) + 1) *
                           127);
             }
-            w = (int)((sin((double)zim / zre)) * 127);
+            w = (int)((sin((double)((zim / zre) * 127))));
             break;
         case 3:
             if (inset)

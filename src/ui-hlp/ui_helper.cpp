@@ -1405,8 +1405,8 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
             if (srr == drr)
                 mmul1 = mmul;
             else
-                mmul1 = (exp(log((double)srr) + ((log((double)drr) - log((double)srr)) * mmul)) - srr) /
-                        (drr - srr);
+                mmul1 = (exp(log((double)srr) + ((log((double)drr) - log((double)srr)) * (double)mmul)) - (double)srr) /
+                        (double)(drr - srr);
             if (mmul1 > 1)
                 mmul1 = 1;
             if (mmul1 < 0)
