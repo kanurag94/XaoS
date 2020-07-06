@@ -321,42 +321,42 @@ public:
 using namespace std;
 
 template<typename T>
-number_t operator*(T d, struct number_t num) {
+inline number_t operator*(T d, struct number_t num) {
     if(numeric_type == 0) return d * num.a;
     if(numeric_type == 1) return d * num.b;
     return 0;
 }
 
 template<typename T>
-number_t operator+(T d, struct number_t num) {
+ number_t operator+(T d, struct number_t num) {
     if(numeric_type == 0) return d + num.a;
     if(numeric_type == 1) return d + num.b;
     return 0;
 }
 
 template<typename T>
-number_t operator-(T d, struct number_t num) {
+ number_t operator-(T d, struct number_t num) {
     if(numeric_type == 0) return d - num.a;
     if(numeric_type == 1) return d - num.b;
     return 0;
 }
 
 template<typename T>
-number_t operator/(T d, struct number_t num) {
+ number_t operator/(T d, struct number_t num) {
     if(numeric_type == 0) return d / num.a;
     if(numeric_type == 1) return d / num.b;
     return 0;
 }
 
 template<typename T>
-bool operator>(T d, struct number_t num) {
+ bool operator>(T d, struct number_t num) {
     if(numeric_type == 0) return d > num.a;
     if(numeric_type == 1) return d > num.b;
     return false;
 }
 
 template<typename T>
-bool operator<(T d, struct number_t num) {
+inline bool operator<(T d, struct number_t num) {
     if(numeric_type == 0) return d < num.a;
     if(numeric_type == 1) return d < num.b;
     return false;

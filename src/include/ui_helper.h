@@ -549,6 +549,7 @@ int uih_ministatusenabled(uih_context *uih);
 void uih_ministatus(uih_context *uih);
 int uih_cartesiangridenabled(uih_context *uih);
 void uih_cartesiangrid(uih_context *uih);
+int uih_float128enabled(uih_context *uih);
 void uih_sffeset(uih_context *c, sffe *parser, const char *formula);
 
 #endif

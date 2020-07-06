@@ -2455,3 +2455,9 @@ int uih_cartesiangridenabled(uih_context * /*uih*/)
 {
     return (cartesiangridwindow != NULL);
 }
+
+int uih_float128enabled(uih_context *uih)
+{
+    numeric_type ^= 1;
+    return (numeric_type == 0);
+}

@@ -783,6 +783,11 @@ static int uih_fixedstepselected(struct uih_context *c)
     return (c->fixedstep);
 }
 
+static int uih_usefloat128(struct uih_context *c)
+{
+    return (numeric_type == 0);
+}
+
 static void uih_persw(struct uih_context *c, number_t x, number_t y)
 {
     if (c->fcontext->bre || c->fcontext->bim)
@@ -1171,6 +1176,8 @@ void uih_registermenus_i18n(void)
                   uih_setspeed, uih_getspeeddialog);
     MENUNOPCB_I("calc", NULL, TR("Menu", "Fixed step"), "fixedstep", 0,
                 uih_fixedstepsw, uih_fixedstepselected);
+    MENUNOPCB_I("calc", NULL, TR("Menu", "10^32 Zoom Support"), "usefloat128", 0,
+                uih_float128enabled, uih_usefloat128);
     MENUSEPARATOR_I("calc");
     MENUDIALOG_I("calc", NULL, TR("Menu", "Solid guessing range"), "range",
                  MENUFLAG_NOMENU, uih_setguessing, uih_numdialog);
