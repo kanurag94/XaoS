@@ -18,7 +18,7 @@ struct fr {
 number_t xstrtonum(const char *s, char **sp)
 {
 
-    if(numeric_type == 0){
+    if(numeric_type == 0) {
         return strtoflt128(s, sp);
     }
     else{

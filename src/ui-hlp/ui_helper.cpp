@@ -2456,8 +2456,56 @@ int uih_cartesiangridenabled(uih_context * /*uih*/)
     return (cartesiangridwindow != NULL);
 }
 
-int uih_float128enabled(uih_context *uih)
+// Its not perfect
+int uih_float128enabled(uih_context *c)
 {
+    // Save current xpf_data
+    const char* xpf_data = uih_savepostostr(c);
+
+    // Copy all context
+    // This does not work sometimes
+    if(numeric_type == 0){
+        c->fcontext->s.ci.b = (long double) c->fcontext->s.ci.a;
+        c->fcontext->s.cr.b = (long double) c->fcontext->s.cr.a;
+        c->fcontext->s.ri.b = (long double) c->fcontext->s.ri.a;
+        c->fcontext->s.rr.b = (long double) c->fcontext->s.rr.a;
+        c->playc->di.b = (long double) c->playc->di.a;
+        c->playc->dr.b = (long double) c->playc->dr.a;
+        c->playc->si.b = (long double) c->playc->si.a;
+        c->playc->sr.b = (long double) c->playc->sr.a;
+        c->fcontext->pim.b = (long double) c->fcontext->pim.a;
+        c->fcontext->pre.b = (long double) c->fcontext->pre.a;
+        c->fcontext->bre.b = (long double) c->fcontext->bre.a;
+        c->fcontext->bim.b = (long double) c->fcontext->bim.a;
+        c->fcontext->bailout.b = (long double) c->fcontext->bailout.a;
+        c->fcontext->angle.b = (long double) c->fcontext->angle.a;
+        c->fcontext->sin.b = (long double) c->fcontext->sin.a;
+        c->fcontext->cos.b = (long double) c->fcontext->cos.a;
+    }
+//    if(numeric_type == 1){
+//        c->fcontext->s.ci.a = (long double) c->fcontext->s.ci.b;
+//        c->fcontext->s.cr.a = (long double) c->fcontext->s.cr.b;
+//        c->fcontext->s.ri.a = (long double) c->fcontext->s.ri.b;
+//        c->fcontext->s.rr.a = (long double) c->fcontext->s.rr.b;
+//        c->playc->di.a = (long double) c->playc->di.b;
+//        c->playc->dr.a = (long double) c->playc->dr.b;
+//        c->playc->si.a = (long double) c->playc->si.b;
+//        c->playc->sr.a = (long double) c->playc->sr.b;
+//        c->fcontext->pim.a = (long double) c->fcontext->pim.b;
+//        c->fcontext->pre.a = (long double) c->fcontext->pre.b;
+//        c->fcontext->bre.a = (long double) c->fcontext->bre.b;
+//        c->fcontext->bim.a = (long double) c->fcontext->bim.b;
+//        c->fcontext->bailout.a = (long double) c->fcontext->bailout.b;
+//        c->fcontext->angle.a = (long double) c->fcontext->angle.b;
+//        c->fcontext->sin.a = (long double) c->fcontext->sin.b;
+//        c->fcontext->cos.a = (long double) c->fcontext->cos.b;
+//    }
+
+    // Change datatype
     numeric_type ^= 1;
+
+    //Load XPF data back
+    uih_loadstr(c, xpf_data);
+
     return (numeric_type == 0);
 }

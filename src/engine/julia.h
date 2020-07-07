@@ -9,9 +9,9 @@ void init_julia(struct image *img, number_t rangep, number_t range,
 #define NOT_CALCULATED (unsigned char)0
 #define INSET (unsigned char)0
 #define INPROCESS (unsigned char)255
-#define RMIN range*(-1)
+#define RMIN range
 #define RMAX range
-#define IMIN range*(-1)
+#define IMIN range
 #define IMAX range
 #define QMAX 1000
 #ifdef STATISTICS
