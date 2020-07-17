@@ -5,6 +5,7 @@ SOURCES += \
     $$PWD/btrace.cpp \
     $$PWD/palettef.cpp \
     $$PWD/emboss.cpp \
+    $$PWD/plane.cpp \
     $$PWD/star.cpp \
     $$PWD/anti.cpp \
     $$PWD/edge.cpp \
@@ -17,7 +18,6 @@ SOURCES += \
     $$PWD/stereogram.cpp \
     $$PWD/3d.cpp \
     $$PWD/subwindow.cpp \
-    $$PWD/plane.cpp \
     $$PWD/julia.cpp
 
 HEADERS += \

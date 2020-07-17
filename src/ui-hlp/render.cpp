@@ -86,9 +86,10 @@ static int passfunc(struct uih_context */*c*/, int display, const char *text,
     return 0;
 }
 
+template <typename T>
 struct frame_info {
     vrect rect;
-    number_t angle;
+    T angle;
     char *name;
     int newimage;
 };
@@ -110,7 +111,7 @@ int uih_renderanimation(struct uih_context *gc1, const char *basename,
     int newimage;
     int y;
 
-    struct frame_info curframe;
+    struct frame_info<number_t> curframe;
     int framenum = 0;
 
     noiselevel = ALL;
@@ -217,7 +218,7 @@ int uih_renderanimation(struct uih_context *gc1, const char *basename,
             const menuitem *item;
             dialogparam *d;
             while ((item = menu_delqueue(&d)) != NULL) {
-                menu_activate(item, uih, d);
+                menu_activate(item, uih, d, uih->oldx);
             }
         }
         if (uih->errstring) {

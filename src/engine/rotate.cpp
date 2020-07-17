@@ -14,9 +14,10 @@
 #include "xthread.h"
 #include "filter.h"
 
+template <typename T>
 struct rotatedata {
-    number_t angle;
-    number_t x1, y1, x2, y2, xx1, yy1, xx2, yy2;
+    T angle;
+    T x1, y1, x2, y2, xx1, yy1, xx2, yy2;
 };
 
 #include "c256.h"
@@ -47,7 +48,7 @@ static int requirement(struct filter *f, struct requirements *r)
 static int initialize(struct filter *f, struct initdata *i)
 {
     float size, pixelsize;
-    struct rotatedata *s = (struct rotatedata *)f->data;
+    struct rotatedata<number_t> *s = (struct rotatedata<number_t> *)f->data;
     inhermisc(f, i);
     s->angle = INT_MAX;
     /*in/out coloring modes looks better in iter modes. This also saves some
@@ -69,7 +70,7 @@ static int initialize(struct filter *f, struct initdata *i)
 static struct filter *getinstance(const struct filteraction *a)
 {
     struct filter *f = createfilter(a);
-    struct rotatedata *i = (struct rotatedata *)calloc(1, sizeof(*i));
+    struct rotatedata<number_t> *i = (struct rotatedata<number_t> *)calloc(1, sizeof(*i));
     f->name = "Rotation filter";
     f->data = i;
     return (f);
@@ -85,7 +86,7 @@ static void destroyinstance(struct filter *f)
 static int doit(struct filter *f, int flags, int time)
 {
     int val;
-    struct rotatedata *s = (struct rotatedata *)f->data;
+    struct rotatedata<number_t> *s = (struct rotatedata<number_t> *)f->data;
     number_t angle = f->fractalc->angle;
     number_t wx = f->fractalc->windowwidth, wy = f->fractalc->windowheight;
     number_t rr = f->fractalc->s.rr, ir = f->fractalc->s.ri;

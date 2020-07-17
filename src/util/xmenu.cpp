@@ -300,7 +300,8 @@ void menu_destroydialog(const menuitem *item, dialogparam *d,
     free(d);
 }
 
-void menu_activate(const menuitem *item, struct uih_context *c, dialogparam *d)
+template <typename T>
+void menu_activate(const menuitem *item, struct uih_context *c, dialogparam *d, T /* number_t */)
 {
     if (c == NULL &&
         (!(item->flags & MENUFLAG_ATSTARTUP) || firstqueue != NULL)) {
@@ -341,7 +342,7 @@ void menu_activate(const menuitem *item, struct uih_context *c, dialogparam *d)
                 // expects. For now I will just special case it because
                 // uimandelbrot is the only menu that does this.
                 if (!strcmp(item->shortname, "uimandelbrot"))
-                    ((void (*)(struct uih_context * c, number_t, number_t))
+                    ((void (*)(struct uih_context * c, T, T))
                          item->function)(c, 0, 0);
                 else
                     ((void (*)(struct uih_context * c, dialogparam *))
@@ -364,12 +365,12 @@ void menu_activate(const menuitem *item, struct uih_context *c, dialogparam *d)
                                  item->function)(c, d[0].dint);
                             break;
                         case DIALOG_FLOAT:
-                            ((void (*)(struct uih_context * c, number_t))
+                            ((void (*)(struct uih_context * c, T))
                                  item->function)(c, d[0].number);
                             break;
                         case DIALOG_COORD:
-                            ((void (*)(struct uih_context * c, number_t,
-                                       number_t)) item->function)(
+                            ((void (*)(struct uih_context * c, T,
+                                       T)) item->function)(
                                 c, d[0].dcoord[0], d[0].dcoord[1]);
                             break;
                         case DIALOG_STRING:
@@ -476,10 +477,11 @@ menu_genernumbered(int n, const char *menuname, const char *const *const names,
     return (item);
 }
 
-number_t menu_getfloat(const char *s, const char **error)
+template <typename T>
+T menu_getfloat(const char *s, const char **error, T /* number_t */)
 {
     char *sp;
-    number_t param = xstrtonum(s, &sp);
+    T param = xstrtonum(s, &sp);
     if (sp != s + strlen(s)) {
         *error = "Floating point number expected";
         return 0;
@@ -502,18 +504,18 @@ const char *menu_fillparam(struct uih_context *uih, tokenfunc f,
             }
             break;
         case DIALOG_FLOAT:
-            p->number = menu_getfloat(c, &error);
+            p->number = menu_getfloat(c, &error, uih->oldx);
             if (error != NULL)
                 return (error);
             break;
         case DIALOG_COORD:
-            p->dcoord[0] = menu_getfloat(c, &error);
+            p->dcoord[0] = menu_getfloat(c, &error, uih->oldx);
             if (error != NULL)
                 return (error);
             c = f(uih);
             if (c == NULL)
                 return "Imaginary part expected";
-            p->dcoord[1] = menu_getfloat(c, &error);
+            p->dcoord[1] = menu_getfloat(c, &error, uih->oldx);
             if (error != NULL)
                 return (error);
             break;
@@ -661,11 +663,11 @@ const char *menu_processcommand(struct uih_context *uih, tokenfunc f,
                  item->type != MENU_CUSTOMDIALOG)) {
                 return NULL;
             } else
-                menu_activate(item, uih, NULL); /*disable it... */
+                menu_activate(item, uih, NULL, uih->oldx); /*disable it... */
         }
     }
     if (item->type != MENU_DIALOG && item->type != MENU_CUSTOMDIALOG) {
-        menu_activate(item, uih, NULL);
+        menu_activate(item, uih, NULL, uih->oldx);
         return NULL;
     }
     /*So we have some parameters */
@@ -690,7 +692,7 @@ const char *menu_processcommand(struct uih_context *uih, tokenfunc f,
                 return errorstr;
             }
         }
-        menu_activate(item, uih, param);
+        menu_activate(item, uih, param, uih->oldx);
         if (uih != NULL)
             menu_destroydialog(item, param, uih);
     }

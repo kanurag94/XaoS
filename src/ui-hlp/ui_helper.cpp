@@ -97,16 +97,17 @@ static void uih_finishpalette(struct uih_context *uih)
     }
 }
 
-static void uih_getcoord(uih_context *uih, int x, int y, number_t *xr,
-                         number_t *yr)
+template <typename T>
+static void uih_getcoord(uih_context *uih, int x, int y, T *xr,
+                         T *yr)
 {
     uih->uifilter->action->convertdown(uih->uifilter, &x, &y);
-    *xr = (((number_t)(uih->fcontext->rs.nc +
+    *xr = (((T)(uih->fcontext->rs.nc +
                        (x) * ((uih->fcontext->rs.mc - uih->fcontext->rs.nc) /
-                              (number_t)uih->zengine->image->width))));
-    *yr = (((number_t)(uih->fcontext->rs.ni +
+                              (T)uih->zengine->image->width))));
+    *yr = (((T)(uih->fcontext->rs.ni +
                        (y) * ((uih->fcontext->rs.mi - uih->fcontext->rs.ni) /
-                              (number_t)uih->zengine->image->height))));
+                              (T)uih->zengine->image->height))));
     rotateback(*(uih->fcontext), *xr, *yr);
 }
 
@@ -249,6 +250,7 @@ void uih_rotate(struct uih_context *c, int n)
         uih_fastrotate(c, 0);
     else {
         uih_fastrotate(c, 1);
+        uih_rotatemode(c, 0);
         uih_rotatemode(c, n);
     }
 }
@@ -335,7 +337,8 @@ int uih_fastrotate(uih_context *c, int mode)
     return 1;
 }
 
-void uih_angle(uih_context *c, number_t angle)
+template <typename T>
+void uih_angle(uih_context *c, T angle)
 {
     if (angle != c->fcontext->angle) {
         if (!c->fastrotate) {
@@ -458,7 +461,8 @@ int uih_setjuliamode(uih_context *c, int mode)
     return 1;
 }
 
-void uih_rotationspeed(uih_context *c, number_t speed)
+template <typename T>
+void uih_rotationspeed(uih_context *c, T speed)
 {
     c->rotationspeed = speed;
 }
@@ -1299,15 +1303,16 @@ static inline void uih_slowdown(uih_context *uih)
     }
 }
 
-static inline void uih_zoomupdate(uih_context *uih)
+template <typename T>
+static inline void uih_zoomupdate(uih_context *uih, T /* number_t */)
 {
-    number_t x;
-    number_t y;
-    number_t mmul = pow((double)(1 - uih->step), (double)uih->mul);
-    number_t mc = uih->fcontext->s.cr - uih->fcontext->s.rr / 2;
-    number_t nc = uih->fcontext->s.cr + uih->fcontext->s.rr / 2;
-    number_t mi = uih->fcontext->s.ci - uih->fcontext->s.ri / 2;
-    number_t ni = uih->fcontext->s.ci + uih->fcontext->s.ri / 2;
+    T x;
+    T y;
+    T mmul = pow((double)(1 - uih->step), (double)uih->mul);
+    T mc = uih->fcontext->s.cr - uih->fcontext->s.rr / 2;
+    T nc = uih->fcontext->s.cr + uih->fcontext->s.rr / 2;
+    T mi = uih->fcontext->s.ci - uih->fcontext->s.ri / 2;
+    T ni = uih->fcontext->s.ci + uih->fcontext->s.ri / 2;
     x = uih->xcenter, y = uih->ycenter;
     mc = x + (mc - x) * (mmul);
     nc = x + (nc - x) * (mmul);
@@ -1321,7 +1326,6 @@ static inline void uih_zoomupdate(uih_context *uih)
 }
 
 /*main uih loop */
-
 int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
 {
     int inmovement = 0;
@@ -1370,7 +1374,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
         if (c->playc->lines.morphing) /*inmovement=1, c->display=1; */
             uih_update_lines(c);
         if (c->step)
-            uih_zoomupdate(c), inmovement = 1;
+            uih_zoomupdate(c, c->oldx), inmovement = 1;
         switch (c->zoomactive) {
             case 1:
                 uih_zoom(c), inmovement = 1;
@@ -1384,7 +1388,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
         if (c->playc->morph) {
             int timer = tl_lookup_timer(c->playc->timer) - c->playc->starttime;
             number_t mmul = /*(tl_lookup_timer (c->playc->timer) -
-                               c->playc->starttime) / (number_t)
+                               c->playc->starttime) / (T)
                                (c->playc->frametime - c->playc->starttime); */
                 MORPHVALUE(timer, c->playc->frametime - c->playc->starttime,
                            c->playc->morphtimes[0], c->playc->morphtimes[1]);
@@ -1427,7 +1431,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
         if (c->playc->morphjulia) {
             int timer = tl_lookup_timer(c->playc->timer) - c->playc->starttime;
             number_t mmul = /*(tl_lookup_timer (c->playc->timer) -
-                               c->playc->starttime) / (number_t)
+                               c->playc->starttime) / (T)
                                (c->playc->frametime - c->playc->starttime); */
                 MORPHVALUE(timer, c->playc->frametime - c->playc->starttime,
                            c->playc->morphjuliatimes[0],
@@ -1441,7 +1445,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
         if (c->playc->morphangle) {
             int timer = tl_lookup_timer(c->playc->timer) - c->playc->starttime;
             number_t mmul = /*(tl_lookup_timer (c->playc->timer) -
-                               c->playc->starttime) / (number_t)
+                               c->playc->starttime) / (T)
                                (c->playc->frametime - c->playc->starttime); */
                 MORPHVALUE(timer, c->playc->frametime - c->playc->starttime,
                            c->playc->morphangletimes[0],
@@ -1469,7 +1473,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
                     c->xcenter = x;
                     c->ycenter = y;
                 }
-                uih_zoomupdate(c), inmovement = 1;
+                uih_zoomupdate(c, c->oldx), inmovement = 1;
             }
             c->zoomactive = 0;
             if (c->rotatemode != ROTATE_MOUSE)
@@ -1493,7 +1497,7 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
                     case BUTTON3:
                         uih_unzoom(c), slowdown = 0;
                         break;
-                    case BUTTON2: {
+                    case BUTTON2: { /* handles panning */
                         number_t x, y;
                         uih_getcoord(uih, mousex, mousey, &x, &y);
                         if (c->pressed && (c->oldx != x || c->oldy != y)) {
@@ -1502,10 +1506,16 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
                             uih_animate_image(c);
                             c->moved = 1;
                         }
-                        c->pressed = 1;
                         c->speed = 0;
-                        update_view(c->fcontext);
-                        uih_getcoord(uih, mousex, mousey, &c->oldx, &c->oldy);
+
+                        /* issue 115 - disable rotation to update panning */
+                        if(c->pressed == 0) {
+                            int old_mode = c->rotatemode;
+                            uih_rotate(c, 0);
+                            uih_getcoord(uih, mousex, mousey, &c->oldx, &c->oldy);
+                            uih_rotate(c, old_mode);
+                        }
+                        c->pressed = 1;
                     } break;
                 }
             } else {
@@ -2104,7 +2114,7 @@ void uih_initstate(struct uih_context *uih)
     uih_setguessing(uih, 3);
     uih_angle(uih, 0);
     uih_rotatemode(uih, 0);
-    uih_rotationspeed(uih, 10);
+    uih_rotationspeed<number_t>(uih, 10);
     uih->xtextpos = 1;
     uih->ytextpos = 1;
     if (uih->playc) {

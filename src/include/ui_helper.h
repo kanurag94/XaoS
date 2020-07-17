@@ -479,10 +479,12 @@ void uih_letterspersec(uih_context *c, int n);
 int uih_fastrotate(uih_context *c, int mode);
 int uih_fastrotateenable(uih_context *c);
 void uih_fastrotatedisable(uih_context *c);
-void uih_angle(uih_context *c, number_t angle);
+template <typename T>
+void uih_angle(uih_context *c, T angle);
 void uih_rotatemode(uih_context *c, int mode);
 void uih_rotate(uih_context *c, int mode);
-void uih_rotationspeed(uih_context *c, number_t speed);
+template <typename T>
+void uih_rotationspeed(uih_context *c, T speed);
 
 /*Catalog functions */
 int uih_loadcatalog(uih_context *c, const char *name);

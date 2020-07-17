@@ -228,11 +228,13 @@ static inline void hsv_to_rgb(int h, int s, int v, int *red, int *green,
     }
 }
 
-static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
-                                     number_t pim, int mode, int inset);
+template <typename T>
+static unsigned int truecolor_output(T zre, T zim, T pre,
+                                     T pim, int mode, int inset);
 
-static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
-                                     number_t pim, int mode, int inset)
+template <typename T>
+static unsigned int truecolor_output(T zre, T zim, T pre,
+                                     T pim, int mode, int inset)
 {
     /* WARNING: r and b fields are swapped for HISTORICAL REASONS (BUG :),
      * in other words: use r for blue and b for red. */
@@ -403,8 +405,10 @@ static unsigned int truecolor_output(number_t zre, number_t zim, number_t pre,
     return cpalette.pixels[inset];
 }
 
-static unsigned int color_output(number_t zre, number_t zim, unsigned int iter);
-static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
+template <typename T>
+static unsigned int color_output(T zre, T zim, unsigned int iter);
+template <typename T>
+static unsigned int color_output(T zre, T zim, unsigned int iter)
 {
     int i;
     iter <<= SHIFT;
@@ -468,17 +472,19 @@ static unsigned int color_output(number_t zre, number_t zim, unsigned int iter)
     }
 }
 
-static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
-                                   number_t pim, unsigned int iter);
+template <typename T>
+static unsigned int incolor_output(T zre, T zim, T pre,
+                                   T pim, unsigned int iter);
 
-static unsigned int incolor_output(number_t zre, number_t zim, number_t pre,
-                                   number_t pim, unsigned int iter)
+template <typename T>
+static unsigned int incolor_output(T zre, T zim, T pre,
+                                   T pim, unsigned int iter)
 {
     int i = iter;
     switch (cfractalc.incoloringmode) {
         case 1: /* zmag */
             i = (int)(((zre * zre + zim * zim) *
-                           (number_t)(cfractalc.maxiter >> 1) * SMUL +
+                           (T)(cfractalc.maxiter >> 1) * SMUL +
                        SMUL));
             break;
         case 2: /* real */

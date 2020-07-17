@@ -467,7 +467,8 @@ const char *menu_fullname(const char *menu);
 const menuitem *menu_item(const char *menu, int n);
 void menu_delete(const menuitem *items, int n);
 int menu_enabled(const menuitem *item, struct uih_context *c);
-void menu_activate(const menuitem *item, struct uih_context *c, dialogparam *d);
+template <typename T>
+void menu_activate(const menuitem *item, struct uih_context *c, dialogparam *d, T);
 const menuitem *
 menu_genernumbered(int n, const char *menuname, const char *const *const names,
                    const char *keys, int type, int flags,
@@ -485,7 +486,8 @@ const char *menu_processcommand(struct uih_context *uih, tokenfunc f,
                                 int scheme, int mask, const char *root);
 void menu_printhelp(void);
 
-number_t menu_getfloat(const char *s, const char **error);
+template <typename T>
+T menu_getfloat(const char *s, const char **error, T);
 const char *menu_fillparam(struct uih_context *uih, tokenfunc f,
                            const menudialog *d, dialogparam *p);
 int menu_processargs(int n, int argc, char **argv);

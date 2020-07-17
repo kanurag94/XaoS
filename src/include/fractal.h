@@ -154,13 +154,15 @@ extern int iters2, guessed2, unguessed2, total2;
 #endif
 
 void set_formula(fractal_context *, int);
-void set_fractalc(fractal_context *, struct image *img);
+template <typename T>
+void set_fractalc(fractal_context *, struct image *img, T);
 void fractalc_resize_to(fractal_context *, float, float);
 void update_view(fractal_context *);
 void free_fractalc(fractal_context *);
 fractal_context *make_fractalc(const int, float, float);
 void speed_test(fractal_context *, struct image *img);
-unsigned int calculateswitch(number_t x1, number_t y1, number_t x2, number_t y2,
+template <typename T>
+unsigned int calculateswitch(T x1, T y1, T x2, T y2,
                              int periodicity);
 
 /* needs struct formula */

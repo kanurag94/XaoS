@@ -449,8 +449,9 @@ static int tracerectangle(int x1, int y1, int x2, int y2)
     return 1;
 }
 
-int boundarytrace(int x1, int y1, int x2, int y2, number_t *xpos,
-                  number_t *ypos)
+template<typename T>
+int boundarytrace(int x1, int y1, int x2, int y2, T *xpos,
+                  T *ypos)
 {
     int i;
     int i1;
@@ -572,7 +573,8 @@ int boundarytrace(int x1, int y1, int x2, int y2, number_t *xpos,
     return 1;
 }
 
-int boundarytraceall(number_t *xpos, number_t *ypos)
+template<typename T>
+int boundarytraceall(T *xpos, T *ypos)
 {
     return (
         boundarytrace(0, 0, cimage.width - 1, cimage.height - 1, xpos, ypos));

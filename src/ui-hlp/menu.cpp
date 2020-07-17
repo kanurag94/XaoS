@@ -1109,7 +1109,7 @@ void uih_registermenus_i18n(void)
                  uih_plviewdialog);
     SUBMENU_I("fractal", "o", TR("Menu", "Rotation"), "rotate");
     MENUDIALOG_I("fractal", NULL, TR("Menu", "Set angle"), "angle",
-                 MENUFLAG_NOMENU | MENUFLAG_INTERRUPT, uih_angle,
+                 MENUFLAG_NOMENU | MENUFLAG_INTERRUPT, uih_angle<number_t>,
                  uih_angledialog);
     MENUDIALOG_I("fractal", NULL, TR("Menu", "Set plane"), "plane",
                  MENUFLAG_NOMENU | MENUFLAG_INTERRUPT, uih_setplane,
@@ -1204,7 +1204,7 @@ void uih_registermenus_i18n(void)
     MENUINTRB_I("rotate", NULL, TR("Menu", "Rotate by mouse"), "mouserotate",
                 UI, uih_rotate, ROTATE_MOUSE, uih_rotateselected);
     MENUCDIALOG_I("rotate", NULL, TR("Menu", "Rotation speed"), "rotationspeed",
-                  0, uih_rotationspeed, uih_getrotationdialog);
+                  0, uih_rotationspeed<number_t>, uih_getrotationdialog);
     MENUDIALOG_I("rotate", NULL, TR("Menu", "Automatic rotation"), "autorotate",
                  MENUFLAG_NOMENU, uih_playautorotate, uih_autorotatedialog);
     MENUDIALOG_I("rotate", NULL, TR("Menu", "Fast rotation mode"), "fastrotate",

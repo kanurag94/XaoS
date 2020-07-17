@@ -38,6 +38,8 @@
 #include "calculate.h" /*an inlined calculate function */
 #include "i18n.h"
 
+#include "../engine/btrace.cpp"
+
 #define ASIZE 16
 #define ALIGN(x) (((x) + ASIZE - 1) & (~(ASIZE - 1)))
 static int nsymmetrized;
@@ -1327,13 +1329,14 @@ static void init_tables(struct filter *f)
             (-f->fractalc->rs.ni + f->fractalc->rs.mi) + f->fractalc->rs.mi;
 }
 
-static int alloc_tables(struct filter *f)
+template <typename T>
+static int alloc_tables(struct filter *f, T* /* number_t */)
 {
     zoom_context *c = getzcontext(f);
-    c->xpos = (number_t *)malloc((f->image->width + 8) * sizeof(*c->xpos));
+    c->xpos = (T *)malloc((f->image->width + 8) * sizeof(*c->xpos));
     if (c->xpos == NULL)
         return 0;
-    c->ypos = (number_t *)malloc((f->image->height + 8) * sizeof(*c->ypos));
+    c->ypos = (T *)malloc((f->image->height + 8) * sizeof(*c->ypos));
     if (c->ypos == NULL) {
         free((void *)c->xpos);
         return 0;
@@ -1406,6 +1409,7 @@ static void startbgmkrealloc(void * /*data*/, struct taskinfo * /*task*/,
 static int do_fractal(struct filter *f, int flags, int /*time*/)
 {
     number_t *posptr;
+    number_t pad;
     int maxres;
     int size;
     int rflags = 0;
@@ -1413,14 +1417,14 @@ static int do_fractal(struct filter *f, int flags, int /*time*/)
 
     f->image->flip(f->image);
     cfilter = *f;
-    set_fractalc(f->fractalc, f->image);
+    set_fractalc(f->fractalc, f->image, pad);
 
     if (getzcontext(f)->forversion != f->fractalc->version ||
         getzcontext(f)->newcalc ||
         getzcontext(f)->forpversion != f->image->palette->version) {
         clear_image(f->image);
         free_tables(f);
-        if (!alloc_tables(f))
+        if (!alloc_tables(f, posptr))
             return 0;
         init_tables(f);
         getzcontext(f)->newcalc = 0;

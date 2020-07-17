@@ -1,6 +1,11 @@
-﻿
-static pixel32_t inline calculate(number_t x, number_t y, int periodicity);
-static pixel32_t inline calculate(number_t x, number_t y, int periodicity)
+﻿#ifndef CALCULATE_H
+#define CALCULATE_H
+
+template <typename T>
+static pixel32_t inline calculate(T x, T y, int periodicity);
+
+template <typename T>
+static pixel32_t inline calculate(T x, T y, int periodicity)
 {
     pixel32_t i;
 
@@ -21,3 +26,5 @@ static pixel32_t inline calculate(number_t x, number_t y, int periodicity)
                                              cfractalc.pim);
     return (i);
 }
+
+#endif

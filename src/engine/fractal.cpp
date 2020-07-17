@@ -50,9 +50,10 @@ static void precalculate_rotation(fractal_context *c)
     c->cos = cos((c->angle) * M_PI / 180);
 }
 
-static void recalc_view(fractal_context *c)
+template <typename T>
+static void recalc_view(fractal_context *c, T /* number_t */)
 {
-    number_t xs = c->s.rr, ys = c->s.ri * c->windowwidth / c->windowheight,
+    T xs = c->s.rr, ys = c->s.ri * c->windowwidth / c->windowheight,
              xc = c->s.cr, yc = c->s.ci, size;
     precalculate_rotation(c);
     rotate(*c, xc, yc);
@@ -78,7 +79,8 @@ static void recalc_view(fractal_context *c)
 static void set_view(fractal_context *c, const vinfo *s)
 {
     c->s = *s;
-    recalc_view(c);
+    long double pad;
+    recalc_view(c, s->ci);
 }
 
 /*FIXME most of this code is obsolete */
@@ -166,7 +168,8 @@ combine_methods(void)
 
 void update_view(fractal_context *context) { set_view(context, &context->s); }
 
-void set_fractalc(fractal_context *context, struct image *img)
+template <typename T>
+void set_fractalc(fractal_context *context, struct image *img, T /* number_t */)
 {
     update_view(context);
     precalculate_rotation(context);
@@ -191,19 +194,19 @@ void set_fractalc(fractal_context *context, struct image *img)
                 (context->rs.mc - context->rs.nc) / (double)img->width;
         else {
             int x, y;
-            number_t xstep =
+            T xstep =
                 ((context->rs.mc - context->rs.nc) / (double)img->width);
-            number_t ystep =
+            T ystep =
                 ((context->rs.mc - context->rs.nc) / (double)img->height);
-            number_t xstep2 = ((context->rs.mc - context->rs.nc) / 5);
-            number_t ystep2 = ((context->rs.mc - context->rs.nc) / 5);
+            T xstep2 = ((context->rs.mc - context->rs.nc) / 5);
+            T ystep2 = ((context->rs.mc - context->rs.nc) / 5);
 
             for (x = 0; x < 5; x++)
                 for (y = 0; y < 5; y++) {
-                    number_t x1 = context->rs.mc + xstep2 * x;
-                    number_t y1 = context->rs.mi + ystep2 * y;
-                    number_t x2 = context->rs.mc + xstep2 * x + xstep;
-                    number_t y2 = context->rs.mi + ystep2 * y + ystep;
+                    T x1 = context->rs.mc + xstep2 * x;
+                    T y1 = context->rs.mi + ystep2 * y;
+                    T x2 = context->rs.mc + xstep2 * x + xstep;
+                    T y2 = context->rs.mi + ystep2 * y + ystep;
 
                     recalculate(cfractalc.plane, &x1, &y1);
                     recalculate(cfractalc.plane, &x2, &y2);
@@ -223,10 +226,10 @@ void set_fractalc(fractal_context *context, struct image *img)
 
     combine_methods();
 
-    if (cursymmetry.xsym == (number_t)INT_MAX)
+    if (cursymmetry.xsym == (T)INT_MAX)
         cursymmetry.xsym = cfractalc.rs.mc + INT_MAX;
 
-    if (cursymmetry.ysym == (number_t)INT_MAX)
+    if (cursymmetry.ysym == (T)INT_MAX)
         cursymmetry.ysym = cfractalc.rs.mi + INT_MAX;
 
     if (cfractalc.coloringmode == 9 && cformula.smooth_calculate != NULL &&
@@ -292,7 +295,7 @@ void fractalc_resize_to(fractal_context *c, float wi, float he)
 {
     c->windowwidth = wi;
     c->windowheight = he;
-    recalc_view(c);
+    recalc_view(c, c->s.ci);
     return;
 }
 
@@ -350,7 +353,7 @@ void speed_test(fractal_context *c, struct image *img)
     tl_timer *t;
     int time;
     unsigned int i;
-    set_fractalc(c, img);
+    set_fractalc(c, img, c->s.ci);
     t = tl_create_timer();
     cfractalc.maxiter = 100;
     (void)cfractalc.currentformula->calculate(0.0, 0.0, 0.0, 0.0);

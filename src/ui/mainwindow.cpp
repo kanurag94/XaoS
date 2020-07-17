@@ -140,7 +140,7 @@ void MainWindow::menuActivate(const menuitem *item, dialogparam *d)
         } else
             uih_message(uih, item->name);
         uih_saveundo(uih);
-        menu_activate(item, uih, d);
+        menu_activate(item, uih, d, uih->oldx);
         if (d != NULL)
             menu_destroydialog(item, d, uih);
     }
@@ -620,7 +620,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     dialogparam *d;
     while ((item = menu_delqueue(&d)) != NULL) {
         uih_saveundo(uih);
-        menu_activate(item, uih, d);
+        menu_activate(item, uih, d, uih->oldx);
     }
 
     char welcome[80];

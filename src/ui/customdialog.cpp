@@ -16,7 +16,8 @@
 
 QStringList fnames = {};
 
-QString format(number_t number)
+template <typename T>
+QString format(T number)
 {
     char buf[256];
 #ifdef USE_FLOAT128

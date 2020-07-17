@@ -2,7 +2,7 @@
 static void do_rotate(void *data, struct taskinfo */*task*/, int r1, int r2)
 {
     struct filter *f = (struct filter *)data;
-    struct rotatedata *s = (struct rotatedata *)f->data;
+    struct rotatedata<number_t> *s = (struct rotatedata<number_t> *)f->data;
     double xstep = (s->x2 - s->x1) * 65536 / f->image->height;
     double ystep = (s->y2 - s->y1) * 65536 / f->image->height;
     double x = (s->x1) * 65536, y = (s->y1) * 65536;

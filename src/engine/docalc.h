@@ -78,25 +78,29 @@
 #ifdef UNCOMPRESS
 /*uncompressed version of loop */
 #ifdef SMOOTHMODE
-static unsigned int SCALC(number_t zre, number_t zim, number_t pre,
-                          number_t pim);
+template <typename T>
+static unsigned int SCALC(T zre, T zim, T pre,
+                          T pim);
 
-static unsigned int SCALC(number_t zre, number_t zim, number_t pre,
-                          number_t pim)
+template <typename T>
+static unsigned int SCALC(T zre, T zim, T pre,
+                          T pim)
 #else
-static unsigned int CALC(number_t zre, number_t zim, number_t pre,
-                         number_t pim);
+template <typename T>
+static unsigned int CALC(T zre, T zim, T pre,
+                         T pim);
 
-static unsigned CALC(number_t zre, number_t zim, number_t pre, number_t pim)
+template <typename T>
+static unsigned CALC(T zre, T zim, T pre, T pim)
 #endif
 {
     unsigned int iter = cfractalc.maxiter;
-    number_t szre = 0, szim = 0;
+    T szre = 0, szim = 0;
 #ifdef RPIP
-    number_t rp = 0, ip;
+    T rp = 0, ip;
 #endif
 #ifdef SMOOTHMODE
-    number_t szmag = 0;
+    T szmag = 0;
 #endif
     SAVEVARIABLES VARIABLES;
     INIT;
@@ -192,24 +196,27 @@ static unsigned CALC(number_t zre, number_t zim, number_t pre, number_t pim)
 }
 #else
 #ifdef SMOOTHMODE
-static unsigned int SCALC(number_t zre, number_t zim, number_t pre,
-                          number_t pim);
-
-static unsigned int SCALC(number_t zre, number_t zim, number_t pre,
-                          number_t pim)
+template <typename T>
+static unsigned int SCALC(T zre, T zim, T pre,
+                          T pim);
+template <typename T>
+static unsigned int SCALC(T zre, T zim, T pre,
+                          T pim)
 #else
-static unsigned int CALC(number_t zre, number_t zim, number_t pre,
-                         number_t pim);
+template <typename T>
+static unsigned int CALC(T zre, T zim, T pre,
+                         T pim);
 
-static unsigned int CALC(number_t zre, number_t zim, number_t pre, number_t pim)
+template <typename T>
+static unsigned int CALC(T zre, T zim, T pre, T pim)
 #endif
 {
     unsigned int iter = cfractalc.maxiter /*& (~(int) 3) */;
 #ifdef RPIP
-    number_t rp, ip;
+    T rp, ip;
 #endif
 #ifdef SMOOTHMODE
-    number_t szmag = 0;
+    T szmag = 0;
 #endif
     VARIABLES;
     INIT;
@@ -278,26 +285,28 @@ static unsigned int CALC(number_t zre, number_t zim, number_t pre, number_t pim)
 #ifndef UNCOMPRESS
 
 #ifdef SMOOTHMODE
-static unsigned int SPERI(number_t zre, number_t zim, number_t pre,
-                          number_t pim);
-
-static unsigned int SPERI(number_t zre, number_t zim, number_t pre,
-                          number_t pim)
+template <typename T>
+static unsigned int SPERI(T zre, T zim, T pre,
+                          T pim);
+template <typename T>
+static unsigned int SPERI(T zre, T zim, T pre,
+                          T pim)
 #else
-static unsigned int PERI(number_t zre, number_t zim, number_t pre,
-                         number_t pim);
-
-static unsigned int PERI(number_t zre, number_t zim, number_t pre, number_t pim)
+template <typename T>
+static unsigned int PERI(T zre, T zim, T pre,
+                         T pim);
+template <typename T>
+static unsigned int PERI(T zre, T zim, T pre, T pim)
 #endif
 {
     unsigned int iter = cfractalc.maxiter /*& (~(int) 3) */, iter1 = 8;
-    number_t r1, s1;
+    T r1, s1;
     int whensavenew, whenincsave;
 #ifdef RPIP
-    number_t rp, ip;
+    T rp, ip;
 #endif
 #ifdef SMOOTHMODE
-    number_t szmag = 0;
+    T szmag = 0;
 #endif
     VARIABLES;
     INIT;
@@ -386,29 +395,31 @@ end:
  */
 
 #ifdef SMOOTHMODE
-static unsigned int SPERI(number_t zre, number_t zim, number_t pre,
-                          number_t pim);
-
-static unsigned int SPERI(number_t zre, number_t zim, number_t pre,
-                          number_t pim)
+template <typename T>
+static unsigned int SPERI(T zre, T zim, T pre,
+                          T pim);
+template <typename T>
+static unsigned int SPERI(T zre, T zim, T pre,
+                          T pim)
 #else
-static unsigned int PERI(number_t zre, number_t zim, number_t pre,
-                         number_t pim);
-
-static unsigned int PERI(number_t zre, number_t zim, number_t pre, number_t pim)
+template <typename T>
+static unsigned int PERI(T zre, T zim, T pre,
+                         T pim);
+template <typename T>
+static unsigned int PERI(T zre, T zim, T pre, T pim)
 #endif
 {
     unsigned int iter = cfractalc.maxiter /*& (~(int) 3) */;
-    number_t r1 = zre, s1 = zim;
-    number_t szre = 0,
+    T r1 = zre, s1 = zim;
+    T szre = 0,
              szim =
                  0; /*F. : Didn't declared register, cause they are few used */
     unsigned int whensavenew, whenincsave;
 #ifdef RPIP
-    number_t rp = 0, ip;
+    T rp = 0, ip;
 #endif
 #ifdef SMOOTHMODE
-    number_t szmag = 0;
+    T szmag = 0;
 #endif
     SAVEVARIABLES VARIABLES;
     INIT;
@@ -542,13 +553,14 @@ periodicity:
 
 #ifndef SMOOTHMODE
 #ifdef JULIA
-static void JULIA(struct image *image, number_t pre, number_t pim)
+template <typename T>
+static void JULIA(struct image *image, T pre, T pim)
 {
     int i, i1, i2, j, x, y;
     unsigned char iter, itmp2, itmp;
-    number_t rp = 0, ip = 0;
-    number_t zre, zim, im, xdelta, ydelta, range, rangep;
-    number_t xstep, ystep;
+    T rp = 0, ip = 0;
+    T zre, zim, im, xdelta, ydelta, range, rangep;
+    T xstep, ystep;
     unsigned char *queue[QMAX];
     unsigned char **qptr;
     unsigned char *addr, **addr1 = image->currlines;
@@ -556,7 +568,7 @@ static void JULIA(struct image *image, number_t pre, number_t pim)
     int guessed = 0, unguessed = 0, iters = 0;
 #endif
     VARIABLES;
-    range = (number_t)RANGE;
+    range = (T)RANGE;
     rangep = range * range;
 
     xdelta = image->width / (RMAX - RMIN);

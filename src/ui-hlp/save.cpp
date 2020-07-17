@@ -80,7 +80,8 @@ static void save_keystring(struct uih_context *uih, const char *name)
     myputs(name);
 }
 
-static void save_float(struct uih_context *uih, number_t number)
+template <typename T>
+static void save_float(struct uih_context *uih, T number)
 {
     if (!first)
         myputc(' ');
@@ -99,7 +100,8 @@ static void save_float(struct uih_context *uih, number_t number)
     myputs(s);
 }
 
-static void save_float2(struct uih_context *uih, number_t number, int places)
+template <typename T>
+static void save_float2(struct uih_context *uih, T number, int places)
 {
     char fs[10];
     if (!first)
@@ -185,8 +187,9 @@ static void save_floatc(struct uih_context *uih, const char *name,
     stop_save(uih);
 }
 
+template <typename T>
 static void save_float2c(struct uih_context *uih, const char *name,
-                         number_t number, int places)
+                         T number, int places)
 {
     start_save(uih, name);
     save_float2(uih, number, places);
