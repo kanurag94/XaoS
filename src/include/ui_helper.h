@@ -25,9 +25,9 @@ struct uih_line {
     int morph;
     int color;
     int posmode;
-    number_t x1, y1, x2, y2;
+    long double x1, y1, x2, y2;
     int mposmode;
-    number_t mx1, my1, mx2, my2;
+    long double mx1, my1, mx2, my2;
     struct uih_line *next, *prev;
     struct uih_window *w;
 };
@@ -40,14 +40,14 @@ struct uih_lines {
 struct uih_savedcontext {
     xio_file file;
     int mode;
-    number_t speedup, maxstep;
-    number_t xcenter, ycenter;
+    long double speedup, maxstep;
+    long double xcenter, ycenter;
     tl_timer *timer;
     tl_timer *synctimer;
-    struct fractal_context *fcontext;
+    fractal_context2<long double> *fcontext;
     int clearscreen;
     int fastmode, juliamode, fastrotate, autorotate;
-    number_t rotationspeed;
+    long double rotationspeed;
     int firsttime;
     int filter[MAXFILTERS];
     int pressed;
@@ -82,8 +82,8 @@ struct uih_playcontext {
     int morphangletimes[2];
     vinfo destination;
     vinfo source;
-    number_t srcangle, destangle;
-    number_t sr, si, dr, di;
+    long double srcangle, destangle;
+    long double sr, si, dr, di;
     int readfailed;
     int line;
     struct uih_lines lines;
@@ -117,7 +117,7 @@ struct uih_undocontext {
 struct uih_context {
     void (*updatemenus)(struct uih_context *, const char *);
     /*stuff that should be visible from outside */
-    number_t speedup, maxstep; /*zooming speed */
+    long double speedup, maxstep; /*zooming speed */
 
     /* Information provided to the user interface: */
     const char *menuroot;
@@ -137,7 +137,7 @@ struct uih_context {
     /*Filter system state */
     struct image *image;
     struct palette *palette;
-    struct fractal_context *fcontext; /*fractal information */
+    fractal_context2<long double> *fcontext; /*fractal information */
     struct queue *queue;
     struct filter *uifilter; /*user interface layer */
     struct filter *rotatef;  /* Special filters handler by ui_helper: */
@@ -150,7 +150,7 @@ struct uih_context {
     /*General status variables */
     double mul;             /*speed of last iteration */
     int rotatemode;         /*ROTATE_NONE, ROTATE_CONTINUOUS or ROTATE_NONE */
-    number_t rotationspeed; /*speed of continuous rotation */
+    long double rotationspeed; /*speed of continuous rotation */
     int fastmode;           /*when draw in fast mode */
     int juliamode;
     int fastrotate;
@@ -200,19 +200,19 @@ struct uih_context {
     int fixedstep;
 
     /*zoom/unzoom */
-    number_t speed, step;
-    number_t xcenter, ycenter;
+    long double speed, step;
+    long double xcenter, ycenter;
     int xcenterm, ycenterm;
     int zoomactive;
 
     /*drag&drop move */
     int pressed;
-    number_t oldx, oldy;
+    long double oldx, oldy;
     int moved;
 
     /*drag&drop rotate */
     int rotatepressed;
-    number_t oldangle;
+    long double oldangle;
 
     int ddatalost;
     int tbreak;
@@ -230,7 +230,7 @@ struct uih_context {
     int timespos, count[2];
     double lastspeed, lasttime;
 
-    /*number_t xsize, ysize; */
+    /*long double xsize, ysize; */
     tl_timer *maintimer, *cyclingtimer, *autopilottimer, *calculatetimer,
         *doittimer;
     tl_group *autopilotgroup;
@@ -243,8 +243,8 @@ struct uih_context {
 
     /*autopilot internal values */
     int x1, y1, c1;
-    number_t minsize;
-    number_t maxsize;
+    long double minsize;
+    long double maxsize;
     int autopilotversion;
     int autime;
     int minlong;
@@ -394,13 +394,13 @@ void uih_do_fractal(uih_context *c);
 void uih_prepare_image(uih_context *c);
 void uih_interrupt(uih_context *c);
 void uih_stopzooming(uih_context *c);
-void uih_setspeedup(uih_context *c, number_t speed);
-void uih_setmaxstep(uih_context *c, number_t speed);
+void uih_setspeedup(uih_context *c, long double speed);
+void uih_setmaxstep(uih_context *c, long double speed);
 void uih_setcomplettehandler(uih_context *c, void(h)(void *), void *d);
 void uih_recalculate(struct uih_context *c);
 void uih_initstate(struct uih_context *uih);
 void uih_screentofractalcoord(uih_context *c, int mousex, int mousey,
-                              number_t *re, number_t *im);
+                              long double *re, long double *im);
 
 /*cycling functions */
 void uih_cycling_off(struct uih_context *c);
@@ -412,10 +412,10 @@ int uih_cycling(struct uih_context *c, int mode);
 
 /*fractal context manipulation routines */
 void uih_setformula(uih_context *c, int formula);
-void uih_setperbutation(uih_context *c, number_t re, number_t im);
+void uih_setperbutation(uih_context *c, long double re, long double im);
 void uih_perbutation(uih_context *c, int mousex, int mousey);
 void uih_setmaxiter(uih_context *c, int maxiter);
-void uih_setbailout(uih_context *c, number_t bailout);
+void uih_setbailout(uih_context *c, long double bailout);
 void uih_setincoloringmode(uih_context *c, int mode);
 void uih_setoutcoloringmode(uih_context *c, int mode);
 void uih_setintcolor(uih_context *c, int mode);
@@ -429,7 +429,7 @@ void uih_display(uih_context *c);
 void uih_disablejulia(uih_context *c);
 int uih_enablejulia(uih_context *c);
 int uih_setjuliamode(uih_context *c, int mode);
-void uih_setjuliaseed(uih_context *c, number_t zre, number_t zim);
+void uih_setjuliaseed(uih_context *c, long double zre, long double zim);
 
 /*filter manipulation */
 int uih_enablefilter(uih_context *c, int n);

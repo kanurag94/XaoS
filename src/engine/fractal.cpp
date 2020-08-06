@@ -39,19 +39,22 @@
 struct symmetryinfo2 cursymmetry;
 struct palette cpalette;
 struct image cimage;
-struct fractal_context cfractalc;
+fractal_context2<long double> *ldouble;
+fractal_context2<__float128> *f128;
+fractal_context2<long double> cfractalc;
 struct formula cformula;
 
 static symmetry2 sym_lines[100];
 
-static void precalculate_rotation(fractal_context *c)
+template <typename T>
+static void precalculate_rotation(fractal_context2<T> *c)
 {
     c->sin = sin((c->angle) * M_PI / 180);
     c->cos = cos((c->angle) * M_PI / 180);
 }
 
 template <typename T>
-static void recalc_view(fractal_context *c, T /* number_t */)
+static void recalc_view(fractal_context2<T> *c, T /* number_t */)
 {
     T xs = c->s.rr, ys = c->s.ri * c->windowwidth / c->windowheight,
              xc = c->s.cr, yc = c->s.ci, size;
@@ -76,7 +79,8 @@ static void recalc_view(fractal_context *c, T /* number_t */)
         xc = c->rs.ni, c->rs.ni = c->rs.mi, c->rs.mi = xc;
 }
 
-static void set_view(fractal_context *c, const vinfo *s)
+template <typename T>
+static void set_view(fractal_context2<T> *c, const vinfo *s)
 {
     c->s = *s;
     long double pad;
@@ -166,10 +170,11 @@ combine_methods(void)
         cursymmetry.ysym = (number_t)INT_MAX;
 }
 
-void update_view(fractal_context *context) { set_view(context, &context->s); }
+template <class T>
+void fractal_context2<T>::update_view(fractal_context2 *context) { set_view(context, &context->s); }
 
-template <typename T>
-void set_fractalc(fractal_context *context, struct image *img, T /* number_t */)
+template <class T>
+void fractal_context2<T>::set_fractalc(fractal_context2 *context, struct image *img)
 {
     update_view(context);
     precalculate_rotation(context);
@@ -194,19 +199,19 @@ void set_fractalc(fractal_context *context, struct image *img, T /* number_t */)
                 (context->rs.mc - context->rs.nc) / (double)img->width;
         else {
             int x, y;
-            T xstep =
+            long double xstep =
                 ((context->rs.mc - context->rs.nc) / (double)img->width);
-            T ystep =
+            long double ystep =
                 ((context->rs.mc - context->rs.nc) / (double)img->height);
-            T xstep2 = ((context->rs.mc - context->rs.nc) / 5);
-            T ystep2 = ((context->rs.mc - context->rs.nc) / 5);
+            long double xstep2 = ((context->rs.mc - context->rs.nc) / 5);
+            long double ystep2 = ((context->rs.mc - context->rs.nc) / 5);
 
             for (x = 0; x < 5; x++)
                 for (y = 0; y < 5; y++) {
-                    T x1 = context->rs.mc + xstep2 * x;
-                    T y1 = context->rs.mi + ystep2 * y;
-                    T x2 = context->rs.mc + xstep2 * x + xstep;
-                    T y2 = context->rs.mi + ystep2 * y + ystep;
+                    long double x1 = context->rs.mc + xstep2 * x;
+                    long double y1 = context->rs.mi + ystep2 * y;
+                    long double x2 = context->rs.mc + xstep2 * x + xstep;
+                    long double y2 = context->rs.mi + ystep2 * y + ystep;
 
                     recalculate(cfractalc.plane, &x1, &y1);
                     recalculate(cfractalc.plane, &x2, &y2);
@@ -226,10 +231,10 @@ void set_fractalc(fractal_context *context, struct image *img, T /* number_t */)
 
     combine_methods();
 
-    if (cursymmetry.xsym == (T)INT_MAX)
+    if (cursymmetry.xsym == (long double)INT_MAX)
         cursymmetry.xsym = cfractalc.rs.mc + INT_MAX;
 
-    if (cursymmetry.ysym == (T)INT_MAX)
+    if (cursymmetry.ysym == (long double)INT_MAX)
         cursymmetry.ysym = cfractalc.rs.mi + INT_MAX;
 
     if (cfractalc.coloringmode == 9 && cformula.smooth_calculate != NULL &&
@@ -249,7 +254,8 @@ void set_fractalc(fractal_context *context, struct image *img, T /* number_t */)
     }
 }
 
-void set_formula(fractal_context *c, int num)
+template <class T>
+void fractal_context2<T>::set_formula(fractal_context2 *c, int num)
 {
     assert(num < nformulas);
     assert(num >= 0);
@@ -291,7 +297,8 @@ void set_formula(fractal_context *c, int num)
     }
 }
 
-void fractalc_resize_to(fractal_context *c, float wi, float he)
+template <>
+void fractal_context2<long double>::fractalc_resize_to(fractal_context2 *c, float wi, float he)
 {
     c->windowwidth = wi;
     c->windowheight = he;
@@ -299,10 +306,10 @@ void fractalc_resize_to(fractal_context *c, float wi, float he)
     return;
 }
 
-fractal_context *make_fractalc(const int formula, float wi, float he)
+fractal_context2<long double> *make_fractalc(const int formula, float wi, float he)
 {
-    fractal_context *new_ctxt;
-    new_ctxt = (fractal_context *)calloc(1, sizeof(fractal_context));
+    fractal_context2<long double> *new_ctxt;
+    new_ctxt = (fractal_context2<long double> *)calloc(1, sizeof(fractal_context2<long double>));
     if (new_ctxt == NULL)
         return 0;
     new_ctxt->windowwidth = wi;
@@ -334,11 +341,12 @@ fractal_context *make_fractalc(const int formula, float wi, float he)
     sffe_regvar(&new_ctxt->userinitial, &sffe_dummy, "c");
     sffe_regvar(&new_ctxt->userinitial, &sffe_dummy, "n");
 #endif
-    set_formula(new_ctxt, formula);
+    new_ctxt->set_formula(new_ctxt, formula);
     return (new_ctxt);
 }
 
-void free_fractalc(fractal_context *c)
+template <>
+void fractal_context2<long double>::free_fractalc(fractal_context2 *c)
 {
 #ifdef USE_SFFE
     sffe_free(&c->userformula);
@@ -347,13 +355,14 @@ void free_fractalc(fractal_context *c)
     free(c);
 }
 
-void speed_test(fractal_context *c, struct image *img)
+template <>
+void fractal_context2<long double>::speed_test(fractal_context2 *c, struct image *img)
 {
     // unsigned int sum;
     tl_timer *t;
     int time;
     unsigned int i;
-    set_fractalc(c, img, c->s.ci);
+    set_fractalc(c, img);
     t = tl_create_timer();
     cfractalc.maxiter = 100;
     (void)cfractalc.currentformula->calculate(0.0, 0.0, 0.0, 0.0);

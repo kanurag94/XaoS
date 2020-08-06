@@ -65,18 +65,20 @@ struct formula {
     int flags;
 };
 
-struct fractal_context {
-    number_t pre, pim;
-    number_t bre, bim;
+template <class T>
+class fractal_context2 {
+public:
+    T pre, pim;
+    T bre, bim;
     const struct formula *currentformula;
 #ifdef USE_SFFE
     sffe *userformula;
     sffe *userinitial;
 #endif
-    number_t angle;
+    T angle;
     int periodicity;
     unsigned int maxiter;
-    number_t bailout;
+    T bailout;
     int coloringmode, incoloringmode;
     int intcolor, outtcolor;
     int mandelbrot;
@@ -86,13 +88,54 @@ struct fractal_context {
     float windowwidth, windowheight;
     vinfo s;
     vrect rs;
-    number_t sin, cos;
+    T sin, cos;
     int slowmode; /* 1 in case we want to be exact, not fast */
     /*values temporary filled by set_fractal_context */
     iterationfunc calculate[2];
-    number_t periodicity_limit;
+    T periodicity_limit;
     struct palette *palette; /*fractal's palette */
+    void set_fractalc(fractal_context2 *c, struct image *img);
+    void fractalc_resize_to(fractal_context2 *c, float, float);
+    void update_view(fractal_context2 *c);
+    void free_fractalc(fractal_context2 *c);
+    void speed_test(fractal_context2 *c, struct image *img);
+    void set_formula(fractal_context2 *c, int);
+#ifdef USE_SFFE
+    void sffe_setlocal(fractal_context2 *c);
+#endif
 };
+
+extern fractal_context2<long double> *ldouble;
+extern fractal_context2<__float128> *f128;
+
+//struct fractal_context {
+//    number_t pre, pim;
+//    number_t bre, bim;
+//    const struct formula *currentformula;
+//#ifdef USE_SFFE
+//    sffe *userformula;
+//    sffe *userinitial;
+//#endif
+//    number_t angle;
+//    int periodicity;
+//    unsigned int maxiter;
+//    number_t bailout;
+//    int coloringmode, incoloringmode;
+//    int intcolor, outtcolor;
+//    int mandelbrot;
+//    int plane;
+//    int version;
+//    int range;
+//    float windowwidth, windowheight;
+//    vinfo s;
+//    vrect rs;
+//    number_t sin, cos;
+//    int slowmode; /* 1 in case we want to be exact, not fast */
+//    /*values temporary filled by set_fractal_context */
+//    iterationfunc calculate[2];
+//    number_t periodicity_limit;
+//    struct palette *palette; /*fractal's palette */
+//};
 typedef struct fractal_context fractal_context;
 typedef struct {
     double y0, k, kk, y0k;
@@ -129,12 +172,10 @@ struct symmetryinfo2 {
         x = tmp;                                                               \
     }
 
-#ifdef USE_SFFE
-void sffe_setlocal(fractal_context *c);
-#endif
+fractal_context2<long double> *make_fractalc(const int, float, float);
 
 extern struct symmetryinfo2 cursymmetry;
-extern struct fractal_context cfractalc;
+extern fractal_context2<long double> cfractalc;
 extern struct formula cformula;
 extern struct palette cpalette;
 extern struct image cimage;
@@ -153,14 +194,13 @@ extern int iters2, guessed2, unguessed2, total2;
 
 #endif
 
-void set_formula(fractal_context *, int);
-template <typename T>
-void set_fractalc(fractal_context *, struct image *img, T);
-void fractalc_resize_to(fractal_context *, float, float);
-void update_view(fractal_context *);
-void free_fractalc(fractal_context *);
-fractal_context *make_fractalc(const int, float, float);
-void speed_test(fractal_context *, struct image *img);
+//void set_formula(fractal_context *, int);
+//void set_fractalc(fractal_context *, struct image *img);
+//void fractalc_resize_to(fractal_context *, float, float);
+//void update_view(fractal_context *);
+//void free_fractalc(fractal_context *);
+//fractal_context *make_fractalc(const int, float, float);
+//void speed_test(fractal_context *, struct image *img);
 template <typename T>
 unsigned int calculateswitch(T x1, T y1, T x2, T y2,
                              int periodicity);

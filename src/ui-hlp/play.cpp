@@ -571,7 +571,7 @@ void uih_play_formula(struct uih_context *uih, const char *fname)
     int i;
     for (i = 0; i < nformulas; i++) {
         if (!strcmp(formulas[i].shortname, fname)) {
-            set_formula(uih->fcontext, i);
+            uih->fcontext->set_formula(uih->fcontext, i);
             uih_newimage(uih);
             return;
         }

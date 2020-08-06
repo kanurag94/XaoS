@@ -173,13 +173,14 @@ struct requirements {
     int supportedmask;
     int flags;
 };
+#include <fractal.h>
 struct filter {
     struct filter *next, *previous;
     struct queue *queue;
     const struct filteraction *action;
     struct image *image, *childimage;
     struct requirements req;
-    struct fractal_context *fractalc;
+    fractal_context2<long double> *fractalc;
     void *data;
     const char *name;
     int flags;
@@ -192,7 +193,7 @@ struct filter {
 struct initdata {
     void (*wait_function)(struct filter *f);
     struct image *image;
-    struct fractal_context *fractalc;
+    fractal_context2<long double> *fractalc;
     int flags;
 };
 struct filteraction {

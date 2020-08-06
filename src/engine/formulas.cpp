@@ -1276,7 +1276,7 @@ thread_local cmplx sffe_z, sffe_c, sffe_p, sffe_n;
 void sffe_setmine(void *data, struct taskinfo * /*task*/, int /*r1*/,
                   int /*r2*/)
 {
-    fractal_context *c = (fractal_context *)data;
+    fractal_context2<long double> *c = (fractal_context2<long double> *)data;
     if (!sffe_formula_local) {
         sffe_formula_local = sffe_alloc();
         sffe_regvar(&sffe_formula_local, &sffe_p, "p");
@@ -1306,7 +1306,8 @@ void sffe_setmine(void *data, struct taskinfo * /*task*/, int /*r1*/,
 }
 
 // Tell all threads copy the formula into their local parser
-void sffe_setlocal(fractal_context *c)
+template <>
+void fractal_context2<long double>::sffe_setlocal(fractal_context2 *c)
 {
     xth_function(sffe_setmine, c, nthreads);
     xth_sync();

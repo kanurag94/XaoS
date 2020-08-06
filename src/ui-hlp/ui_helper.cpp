@@ -1541,8 +1541,8 @@ int uih_update(uih_context *c, int mousex, int mousey, int mousebuttons)
                 uih_slowdown(c);
         } else {
             if (mousebuttons & BUTTON1) {
-                number_t x, x1 = c->fcontext->pre;
-                number_t y, y1 = c->fcontext->pim;
+                long double x, x1 = c->fcontext->pre;
+                long double y, y1 = c->fcontext->pim;
                 c->zoomactive = 0;
                 uih_getcoord(uih, mousex, mousey, &x, &y);
                 c->fcontext->pre = x;
@@ -1895,7 +1895,7 @@ int uih_updateimage(uih_context *c, struct image *image)
     c->palette = image->palette;
     c->queue->isinitialized = 0;
     c->ddatalost = 1;
-    fractalc_resize_to(c->fcontext, c->image->pixelwidth * c->image->width,
+    c->fcontext->fractalc_resize_to(c->fcontext, c->image->pixelwidth * c->image->width,
                        c->image->pixelheight * c->image->height);
     c->display = 1;
     c->palette->ncells = sizeof(uicolors) / sizeof(rgb_t);
@@ -2045,7 +2045,7 @@ struct palette *uih_clonepalette(uih_context *c)
 
 void uih_setformula(uih_context *c, int num)
 {
-    set_formula(c->fcontext, num);
+    ldouble->set_formula(c->fcontext, num);
     uih_newimage(c);
     uih_updatemenus(c, "uimandelbrot");
     uih_updatemenus(c, "uiperturbation");
@@ -2071,7 +2071,7 @@ void uih_sffeset(uih_context *c, sffe *parser, const char *formula)
     } else {
         if (parser->expression)
             uih_message(c, parser->expression);
-        sffe_setlocal(c->fcontext);
+        ldouble->sffe_setlocal(c->fcontext);
         if (!(c->fcontext->currentformula->flags & SFFE_FRACTAL)) {
             uih_play_formula(c, "user");
         } else {
@@ -2095,7 +2095,7 @@ void uih_initstate(struct uih_context *uih)
     for (i = 0; i < uih_nfilters; i++)
         uih_disablefilter(uih, i);
     uih_setperbutation(uih, 0, 0);
-    set_formula(uih->fcontext, 0);
+    uih->fcontext->set_formula(uih->fcontext, 0);
 #ifdef USE_SFFE
     sffe_parse(&uih->fcontext->userformula, USER_FORMULA);
     sffe_parse(&uih->fcontext->userinitial, "");
@@ -2151,7 +2151,7 @@ void uih_freecontext(uih_context *c)
     uih_destroytext(c);
     uih_removew(c, c->cscreenwindow);
     free(c->queue);
-    free_fractalc(c->fcontext);
+    c->fcontext->free_fractalc(c->fcontext);
     free(c);
 }
 

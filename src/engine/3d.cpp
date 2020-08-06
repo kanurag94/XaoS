@@ -90,7 +90,7 @@ static int initialize(struct filter *f, struct initdata *i)
                     i->image->pixelwidth, i->image->pixelheight * 2))
         return 0;
     setfractalpalette(f, d->savedpalette);
-    fractalc_resize_to(f->fractalc,
+    ldouble->fractalc_resize_to(f->fractalc,
                        f->childimage->pixelwidth * f->childimage->width,
                        f->childimage->pixelheight * f->childimage->height);
     f->fractalc->version++;
@@ -186,7 +186,7 @@ static int doit(struct filter *f, int flags, int time)
 static void myremove(struct filter *f)
 {
     struct threeddata *d = (struct threeddata *)f->data;
-    fractalc_resize_to(f->fractalc, f->image->width * f->image->pixelwidth,
+    f->fractalc->fractalc_resize_to(f->fractalc, f->image->width * f->image->pixelwidth,
                        f->image->height * f->image->pixelheight);
     if (d->savedpalette != NULL) {
         restorepalette(f->image->palette, d->savedpalette);

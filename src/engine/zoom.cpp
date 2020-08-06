@@ -1417,7 +1417,7 @@ static int do_fractal(struct filter *f, int flags, int /*time*/)
 
     f->image->flip(f->image);
     cfilter = *f;
-    set_fractalc(f->fractalc, f->image, pad);
+    f->fractalc->set_fractalc(f->fractalc, f->image);
 
     if (getzcontext(f)->forversion != f->fractalc->version ||
         getzcontext(f)->newcalc ||

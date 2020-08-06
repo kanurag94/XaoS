@@ -86,7 +86,7 @@ void MainWindow::printSpeed()
 
     widget->repaint();
     showStatus("Measuring calculation speed");
-    speed_test(uih->fcontext, uih->image);
+    ldouble->speed_test(uih->fcontext, uih->image);
     showStatus("Measuring new image calculation loop");
     uih_prepare_image(uih);
     tl_update_time();

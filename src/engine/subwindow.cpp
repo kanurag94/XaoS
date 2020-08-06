@@ -173,7 +173,7 @@ static int doit(struct filter *f, int flags, int time)
         f->fractalc->s.rr = f->fractalc->s.ri =
             4; /*FIXME should be set to real formula's bailout */
     }
-    update_view(f->fractalc);
+    f->fractalc->update_view(f->fractalc);
     m = f->fractalc->mandelbrot;
     vold = f->fractalc->version;
     if (s->pre != f->fractalc->pre || s->pim != f->fractalc->pim) {

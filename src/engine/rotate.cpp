@@ -96,11 +96,11 @@ static int doit(struct filter *f, int flags, int time)
     f->fractalc->s.ri *= f->fractalc->windowheight / wy;
     f->fractalc->windowwidth = f->fractalc->windowheight = 1;
     f->fractalc->angle = 0;
-    update_view(f->fractalc); /*update rotation tables */
+    f->fractalc->update_view(f->fractalc); /*update rotation tables */
     updateinheredimage(f);
     val = f->previous->action->doit(f->previous, flags, time);
     f->fractalc->angle = angle;
-    update_view(f->fractalc); /*update rotation tables */
+    f->fractalc->update_view(f->fractalc); /*update rotation tables */
     f->fractalc->s.rr = rr;
     f->fractalc->s.ri = ir;
     f->fractalc->windowwidth = wx;

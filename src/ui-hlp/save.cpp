@@ -359,7 +359,7 @@ void uih_saveframe(struct uih_context *uih)
             };
 /*SFFE : malczak */
 #endif
-            set_formula(s->fcontext,
+            s->fcontext->set_formula(s->fcontext,
                         (int)(uih->fcontext->currentformula - formulas));
         }
         if (s->mode >= UIH_SAVEALL)
