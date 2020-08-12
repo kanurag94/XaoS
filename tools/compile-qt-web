@@ -17,5 +17,5 @@ git checkout 5.14
 git submodule update --init --recursive
 . ../emsdk/emsdk_env.sh
 ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license # -feature-thread
-make -j4 module-qtbase module-qtdeclarative
+make -j4 module-qtbase module-qtdeclarative module-qttools
 cd ..

@@ -1,0 +1,5 @@
+#!/bin/bash
+. emsdk/emsdk_env.sh
+cd ..
+tools/qt5/qtbase/bin/qmake
+make
