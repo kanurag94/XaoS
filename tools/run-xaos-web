@@ -1,0 +1,4 @@
+#!/bin/bash
+. emsdk/emsdk_env.sh
+cd ../bin
+emrun --browser=firefox xaos.html
