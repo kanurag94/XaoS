@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Get emscripten:
+test -d emsdk || git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+git pull
+./emsdk install sdk-fastcomp-1.38.27-64bit
+./emsdk activate --embedded sdk-fastcomp-1.38.27-64bit
+# Refer to https://wiki.qt.io/Qt_for_WebAssembly for other options.
+cd ..
+
+# Get Qt:
+test -d qt5 || git clone git://code.qt.io/qt/qt5.git
+cd qt5
+git checkout 5.14
+./init-repository
+git submodule update --init --recursive
+. ../emsdk/emsdk_env.sh
+./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license # -feature-thread
+make -j4 module-qtbase module-qtdeclarative
+cd ..
