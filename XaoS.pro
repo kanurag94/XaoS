@@ -32,7 +32,8 @@ CONFIG(debug, debug|release) {
 }
 
 CONFIG(release, debug|release) {
-    QMAKE_POST_LINK=$(STRIP) $(TARGET)
+    # Not working on web:
+    # QMAKE_POST_LINK=$(STRIP) $(TARGET)
     linux: {
         # This may help in debugging some odd issues under Debian:
         # QMAKE_CFLAGS   *= $(shell dpkg-buildflags --get CFLAGS)
@@ -55,8 +56,9 @@ isEmpty(QMAKE_LRELEASE) {
 }
 
 CONFIG += optimize_full
-QMAKE_CXXFLAGS += -ffast-math
-QMAKE_CFLAGS += -ffast-math
+QMAKE_CXXFLAGS += -ffast-math --emrun
+QMAKE_CFLAGS += -ffast-math --emrun
+QMAKE_LFLAGS += --emrun
 
 RESOURCES += XaoS.qrc
 
